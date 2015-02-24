@@ -6,8 +6,13 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>queydsl-args</name>
+    <organization>
+        <name>Edson Yanaga</name>
+        <url>http://www.yanaga.me</url>
+    </organization>
+    <inceptionYear>2014</inceptionYear>
     <description>queydsl-args</description>
-    <url>http://yanaga.github.io/querydsl-args</url>
+    <url>https://github.com/yanaga/querydsl-args</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -39,8 +44,8 @@
         </repository>
     </distributionManagement>
     <properties>
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <querydsl.version>3.4.2</querydsl.version>
@@ -153,6 +158,30 @@
                         <version>1.7.7</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.8</version>
+                <configuration>
+                    <verbose>false</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>first</id>
+                        <goals>
+                            <goal>update-file-header</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <licenseName>apache_v2</licenseName>
+                            <roots>
+                                <root>src/main/java</root>
+                                <root>src/test</root>
+                            </roots>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
