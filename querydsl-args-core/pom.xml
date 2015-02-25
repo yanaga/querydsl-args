@@ -4,6 +4,9 @@
     <artifactId>querydsl-args-core</artifactId>
     <packaging>jar</packaging>
     <name>querydsl-args-core</name>
+    <description>
+        QueryDSL-Args core classes.
+    </description>
     <parent>
         <groupId>me.yanaga</groupId>
         <artifactId>querydsl-args</artifactId>

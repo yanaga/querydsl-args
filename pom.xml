@@ -11,7 +11,9 @@
         <url>http://www.yanaga.me</url>
     </organization>
     <inceptionYear>2014</inceptionYear>
-    <description>querydsl-args</description>
+    <description>
+        QueryDSL-Args: QueryDSL Helper classes to ease argument passing from View layer to Model layer without dealing with nulls.
+    </description>
     <url>https://github.com/yanaga/querydsl-args</url>
     <licenses>
         <license>

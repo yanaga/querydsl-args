@@ -4,6 +4,9 @@
     <artifactId>querydsl-args-jsf</artifactId>
     <packaging>jar</packaging>
     <name>querydsl-args-jsf</name>
+    <description>
+        JSF Converter implementations for QueryDSL-Args classes.
+    </description>
     <parent>
         <groupId>me.yanaga</groupId>
         <artifactId>querydsl-args</artifactId>
