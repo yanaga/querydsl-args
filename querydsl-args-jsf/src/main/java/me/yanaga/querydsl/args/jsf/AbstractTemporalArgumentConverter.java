@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.jsf;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-jsf
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -20,22 +20,22 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.ComparablePath;
+import javax.faces.component.UIComponent;
+import javax.faces.convert.Converter;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.function.BiFunction;
+abstract class AbstractTemporalArgumentConverter implements Converter {
 
-class EmptyRangeBigDecimalArgument implements RangeBigDecimalArgument, Serializable {
+	static final String PATTERN_KEY = "pattern";
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder,
-			BiFunction<ComparablePath<BigDecimal>, Range<BigDecimal>, BooleanExpression> operationFunction,
-			ComparablePath<BigDecimal> path,
-			ComparablePath<BigDecimal>... paths) {
+	DateTimeFormatter getPattern(UIComponent component) {
+		return Optional.ofNullable(component.getAttributes().get(PATTERN_KEY))
+				.map(Object::toString)
+				.map(DateTimeFormatter::ofPattern)
+				.orElse(getDefaultPattern());
 	}
+
+	abstract DateTimeFormatter getDefaultPattern();
 
 }

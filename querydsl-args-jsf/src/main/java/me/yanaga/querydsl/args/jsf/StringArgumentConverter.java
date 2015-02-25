@@ -21,25 +21,22 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.IntegerArgument;
+import me.yanaga.querydsl.args.core.single.StringArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(forClass = IntegerArgument.class)
-public class IntegerArgumentConverter implements Converter {
+@FacesConverter(forClass = StringArgument.class)
+public class StringArgumentConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (!Strings.isNullOrEmpty(digits)) {
-				return IntegerArgument.of(Integer.valueOf(digits));
-			}
+			return StringArgument.of(value.trim());
 		}
-		return IntegerArgument.of();
+		return StringArgument.of();
 	}
 
 	@Override

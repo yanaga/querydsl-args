@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,8 +20,20 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.types.Expression;
+import com.mysema.query.types.path.StringPath;
+import me.yanaga.querydsl.args.core.Argument;
 
-public interface MultiRangeArgument<T extends Expression<?>, V> extends Argument<T, V> {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public interface StringArgument extends Argument<StringPath, String> {
+
+	public static StringArgument of(String value) {
+		checkNotNull(value);
+		return new SingleStringArgument(value);
+	}
+
+	public static StringArgument of() {
+		return new EmptyStringArgument();
+	}
 
 }

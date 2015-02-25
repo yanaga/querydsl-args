@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,18 +20,16 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.ComparablePath;
+import com.mysema.query.types.expr.DateExpression;
 
-import java.io.Serializable;
-import java.util.function.BiFunction;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-class EmptyLongArgument implements RangeLongArgument, Serializable {
+class EmptyLocalDateArgument extends AbstractEmptyArgument<DateExpression<LocalDate>, LocalDate> implements LocalDateArgument {
 
-	@SafeVarargs
 	@Override
-	public final void append(BooleanBuilder builder, BiFunction<ComparablePath<Long>, Range<Long>, BooleanExpression> operationFunction, ComparablePath<Long> path, ComparablePath<Long>... paths) {
+	public String format(DateTimeFormatter formatter) {
+		return "";
 	}
 
 }

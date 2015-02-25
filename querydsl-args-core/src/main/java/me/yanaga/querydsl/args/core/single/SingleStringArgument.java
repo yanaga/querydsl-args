@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,33 +20,22 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.ComparableExpression;
-import me.yanaga.querydsl.args.core.RangeArgument;
+import com.mysema.query.types.path.StringPath;
 
-import java.io.Serializable;
 import java.util.function.BiFunction;
-import java.util.stream.Stream;
 
-class AbstractRangeArgument<T extends ComparableExpression<V>, V extends Comparable<V>> implements RangeArgument<T, V>, Serializable {
+class SingleStringArgument extends AbstractSingleArgument<StringPath, String> implements StringArgument {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Range<V> value;
-
-	AbstractRangeArgument(Range<V> value) {
-		this.value = value;
+	SingleStringArgument(String value) {
+		super(value);
 	}
 
-	@SafeVarargs
 	@Override
-	public final void append(BooleanBuilder builder,
-			BiFunction<T, Range<V>, BooleanExpression> operationFunction,
-			T path,
-			T... paths) {
-		Stream.concat(Stream.of(path), Stream.of(paths))
-				.forEach(p -> builder.or(operationFunction.apply(p, value)));
+	protected BiFunction<StringPath, String, BooleanExpression> getDefaultOperation() {
+		return StringPath::containsIgnoreCase;
 	}
 
 }

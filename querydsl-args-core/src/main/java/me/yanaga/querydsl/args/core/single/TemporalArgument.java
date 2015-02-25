@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-core
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -20,18 +20,13 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.ComparablePath;
+import com.mysema.query.types.expr.TemporalExpression;
+import me.yanaga.querydsl.args.core.Argument;
 
-import java.io.Serializable;
-import java.util.function.BiFunction;
+import java.time.format.DateTimeFormatter;
 
-class EmptyIntegerArgument implements RangeIntegerArgument, Serializable {
+interface TemporalArgument<T extends TemporalExpression<V>, V extends Comparable<?>> extends Argument<T, V> {
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, BiFunction<ComparablePath<Integer>, Range<Integer>, BooleanExpression> operationFunction, ComparablePath<Integer> path, ComparablePath<Integer>... paths) {
-	}
+	public String format(DateTimeFormatter formatter);
 
 }

@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,16 +20,25 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.types.path.ComparablePath;
+import com.mysema.query.types.expr.DateExpression;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-class DefaultRangeBigDecimalArgument
-		extends AbstractRangeArgument<ComparablePath<BigDecimal>, BigDecimal>
-		implements RangeBigDecimalArgument {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-	DefaultRangeBigDecimalArgument(Range<BigDecimal> value) {
+class SingleLocalDateArgument extends AbstractSingleArgument<DateExpression<LocalDate>, LocalDate> implements LocalDateArgument {
+
+	private static final long serialVersionUID = 1L;
+
+	SingleLocalDateArgument(LocalDate value) {
 		super(value);
+	}
+
+	@Override
+	public String format(DateTimeFormatter formatter) {
+		checkNotNull(formatter);
+		return value.format(formatter);
 	}
 
 }

@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,8 +20,21 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.types.Expression;
+import com.mysema.query.types.expr.DateTimeExpression;
 
-public interface MultiArgument<T extends Expression<?>, V> extends Argument<T, V> {
+import java.time.LocalDateTime;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public interface LocalDateTimeArgument extends TemporalArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> {
+
+	public static LocalDateTimeArgument of(LocalDateTime localDateTime) {
+		checkNotNull(localDateTime);
+		return new SingleLocalDateTimeArgument(localDateTime);
+	}
+
+	public static LocalDateTimeArgument of() {
+		return new EmptyLocalDateTimeArgument();
+	}
 
 }

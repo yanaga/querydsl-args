@@ -20,18 +20,13 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.google.common.base.Strings;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public interface LongArgument extends NumberArgument<Long> {
 
-	public static LongArgument of(String value) {
-		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (digits.matches("\\d+")) {
-				return new SingleLongArgument(Long.valueOf(digits));
-			}
-		}
-		return new EmptyLongArgument();
+	public static LongArgument of(Long value) {
+		checkNotNull(value);
+		return new SingleLongArgument(value);
 	}
 
 	public static LongArgument of() {

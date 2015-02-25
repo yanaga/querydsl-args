@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,24 +20,25 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.google.common.base.Strings;
-import com.mysema.query.types.path.ComparablePath;
-import me.yanaga.querydsl.args.core.RangeArgument;
+import com.mysema.query.types.expr.DateTimeExpression;
 
-public interface RangeLongArgument extends RangeArgument<ComparablePath<Long>, Long> {
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-	public static RangeLongArgument of(String value) {
-		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (digits.matches("\\d+")) {
-//				return new SingleLongArgument(Long.valueOf(digits));
-			}
-		}
-		return new EmptyLongArgument();
+import static com.google.common.base.Preconditions.checkNotNull;
+
+class SingleLocalDateTimeArgument extends AbstractSingleArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> implements LocalDateTimeArgument {
+
+	private static final long serialVersionUID = 1L;
+
+	SingleLocalDateTimeArgument(LocalDateTime value) {
+		super(value);
 	}
 
-	public static RangeLongArgument of() {
-		return new EmptyLongArgument();
+	@Override
+	public String format(DateTimeFormatter formatter) {
+		checkNotNull(formatter);
+		return value.format(formatter);
 	}
 
 }

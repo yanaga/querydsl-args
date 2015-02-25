@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.jsf;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-jsf
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -21,25 +21,34 @@ package me.yanaga.querydsl.args.core.range;
  */
 
 import com.google.common.base.Strings;
-import com.mysema.query.types.path.ComparablePath;
-import me.yanaga.querydsl.args.core.RangeArgument;
+import me.yanaga.querydsl.args.core.single.BigIntegerArgument;
 
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 import java.math.BigInteger;
 
-public interface RangeBigIntegerArgument extends RangeArgument<ComparablePath<BigInteger>, BigInteger> {
+@FacesConverter(forClass = BigIntegerArgument.class)
+public class BigIntegerArgumentConverter implements Converter {
 
-	public static RangeBigIntegerArgument of(String value) {
+	@Override
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (!Strings.isNullOrEmpty(value)) {
 			String digits = value.replaceAll("\\D", "");
-			if (digits.matches("\\d+")) {
-//				return new SingleBigIntegerArgument(new BigInteger(value));
+			if (!Strings.isNullOrEmpty(digits)) {
+				return BigIntegerArgument.of(new BigInteger(digits));
 			}
 		}
-		return new EmptyRangeBigIntegerArgument();
+		return BigIntegerArgument.of();
 	}
 
-	public static RangeBigIntegerArgument of() {
-		return new EmptyRangeBigIntegerArgument();
+	@Override
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
+		if (value != null) {
+			return value.toString();
+		}
+		return null;
 	}
 
 }

@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,15 +20,16 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.ComparableExpression;
-import me.yanaga.querydsl.args.core.range.Range;
+import com.mysema.query.types.expr.DateTimeExpression;
 
-public interface RangeArgument<T extends ComparableExpression<V>, V extends Comparable<V>> extends Argument<T, Range<V>> {
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-	@SuppressWarnings("unchecked")
-	public default void append(BooleanBuilder builder, T path, T... paths) {
-		append(builder, (t, range) -> t.goe(range.getBegin()).and(t.loe(range.getEnd())), path, paths);
+class EmptyLocalDateTimeArgument extends AbstractEmptyArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> implements LocalDateTimeArgument {
+
+	@Override
+	public String format(DateTimeFormatter formatter) {
+		return "";
 	}
 
 }

@@ -20,20 +20,15 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.google.common.base.Strings;
-
 import java.math.BigDecimal;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public interface BigDecimalArgument extends NumberArgument<BigDecimal> {
 
-	public static BigDecimalArgument of(String value) {
-		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (digits.matches("\\d+")) {
-				return new SingleBigDecimalArgument(new BigDecimal(digits));
-			}
-		}
-		return new EmptyBigDecimalArgument();
+	public static BigDecimalArgument of(BigDecimal value) {
+		checkNotNull(value);
+		return new SingleBigDecimalArgument(value);
 	}
 
 	public static BigDecimalArgument of() {

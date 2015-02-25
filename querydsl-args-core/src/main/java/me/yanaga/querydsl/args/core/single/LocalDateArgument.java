@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,22 +20,21 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.ComparablePath;
+import com.mysema.query.types.expr.DateExpression;
 
-import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.function.BiFunction;
+import java.time.LocalDate;
 
-class EmptyRangeBigIntegerArgument implements RangeBigIntegerArgument, Serializable {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder,
-			BiFunction<ComparablePath<BigInteger>, Range<BigInteger>, BooleanExpression> operationFunction,
-			ComparablePath<BigInteger> path,
-			ComparablePath<BigInteger>... paths) {
+public interface LocalDateArgument extends TemporalArgument<DateExpression<LocalDate>, LocalDate> {
+
+	public static LocalDateArgument of(LocalDate localDate) {
+		checkNotNull(localDate);
+		return new SingleLocalDateArgument(localDate);
+	}
+
+	public static LocalDateArgument of() {
+		return new EmptyLocalDateArgument();
 	}
 
 }

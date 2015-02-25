@@ -22,8 +22,8 @@ package me.yanaga.querydsl.args.core.single;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
+import com.mysema.query.types.path.StringPath;
 import me.yanaga.querydsl.args.core.TestConfig;
-import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,12 +33,11 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = TestConfig.class)
-public class MixedArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
+public class StringArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -46,23 +45,36 @@ public class MixedArgumentTest extends AbstractTransactionalTestNGSpringContextT
 	@BeforeMethod
 	public void setUp() {
 		Person person = new Person();
-		person.setOneInteger(123);
-		person.setAnotherInteger(321);
-		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
-		person.setOneString("abc");
-		person.setAnotherString("xyz");
+		person.setOneString("abcdef");
+		person.setAnotherString("uvwxyz");
 		entityManager.persist(person);
 	}
 
 	@Test
-	public void testArgumentsdAreConcatenatedWithAnd() {
-		IntegerArgument integerArgument = IntegerArgument.of(123);
-		StringArgument stringArgument = StringArgument.of("def");
+	public void testAppendDefaultOneArgument() {
+		StringArgument argument = StringArgument.of("cd");
 		BooleanBuilder builder = new BooleanBuilder();
-		integerArgument.append(builder, QPerson.person.oneInteger);
-		stringArgument.append(builder, QPerson.person.oneString);
+		argument.append(builder, QPerson.person.oneString);
+		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		assertThat(result.getOneString()).isEqualTo("abcdef");
+	}
+
+	@Test
+	public void testAppendDefaultOneArgumentWithNoResult() {
+		StringArgument argument = StringArgument.of("yanaga");
+		BooleanBuilder builder = new BooleanBuilder();
+		argument.append(builder, QPerson.person.oneString);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		assertThat(result).isNull();
+	}
+
+	@Test
+	public void testAppendStartsWithTwoArguments() {
+		StringArgument argument = StringArgument.of("a");
+		BooleanBuilder builder = new BooleanBuilder();
+		argument.append(builder, StringPath::startsWith, QPerson.person.oneString, QPerson.person.anotherString);
+		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
 	}
 
 }

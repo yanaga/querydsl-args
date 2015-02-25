@@ -26,9 +26,11 @@ import com.mysema.query.types.expr.BooleanExpression;
 
 import java.util.function.BiFunction;
 
-public interface Argument<T extends Expression<?>, V> {
+@SuppressWarnings("unchecked")
+public interface Argument<T extends Expression<V>, V> {
 
-	@SuppressWarnings("unchecked")
 	public void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operationFunction, T path, T... paths);
+
+	public void append(BooleanBuilder builder, T path, T... paths);
 
 }

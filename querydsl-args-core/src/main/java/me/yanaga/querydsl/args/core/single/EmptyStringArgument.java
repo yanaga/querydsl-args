@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.range;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
@@ -20,24 +20,8 @@ package me.yanaga.querydsl.args.core.range;
  * #L%
  */
 
-import com.google.common.base.Strings;
-import com.mysema.query.types.path.ComparablePath;
-import me.yanaga.querydsl.args.core.RangeArgument;
+import com.mysema.query.types.path.StringPath;
 
-public interface RangeIntegerArgument extends RangeArgument<ComparablePath<Integer>, Integer> {
-
-	public static RangeIntegerArgument of(String value) {
-		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (digits.matches("\\d+")) {
-//				return new SingleIntegerArgument(Integer.valueOf(digits));
-			}
-		}
-		return new EmptyIntegerArgument();
-	}
-
-	public static RangeIntegerArgument of() {
-		return new EmptyIntegerArgument();
-	}
+class EmptyStringArgument extends AbstractEmptyArgument<StringPath, String> implements StringArgument {
 
 }

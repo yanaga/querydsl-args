@@ -21,33 +21,46 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.IntegerArgument;
+import me.yanaga.querydsl.args.core.single.LocalDateArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-@FacesConverter(forClass = IntegerArgument.class)
-public class IntegerArgumentConverter implements Converter {
+@FacesConverter(forClass = LocalDateArgument.class)
+public class LocalDateArgumentConverter extends AbstractTemporalArgumentConverter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		DateTimeFormatter pattern = getPattern(component);
 		if (!Strings.isNullOrEmpty(value)) {
-			String digits = value.replaceAll("\\D", "");
-			if (!Strings.isNullOrEmpty(digits)) {
-				return IntegerArgument.of(Integer.valueOf(digits));
+			try {
+				return LocalDateArgument.of(LocalDate.parse(value.trim(), pattern));
+			}
+			catch (DateTimeParseException ex) {
+				throw new ConverterException("Invalid Date", ex);
 			}
 		}
-		return IntegerArgument.of();
+		return LocalDateArgument.of();
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
-			return value.toString();
+			DateTimeFormatter pattern = getPattern(component);
+			LocalDateArgument argument = (LocalDateArgument) value;
+			return argument.format(pattern);
 		}
 		return null;
+	}
+
+	@Override
+	DateTimeFormatter getDefaultPattern() {
+		return DateTimeFormatter.ISO_LOCAL_DATE;
 	}
 
 }

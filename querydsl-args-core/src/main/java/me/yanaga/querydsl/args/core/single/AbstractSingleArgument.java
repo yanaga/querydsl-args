@@ -9,9 +9,9 @@ package me.yanaga.querydsl.args.core.single;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,8 @@ package me.yanaga.querydsl.args.core.single;
  */
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.Expression;
 import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.SimpleExpression;
 import me.yanaga.querydsl.args.core.Argument;
 
 import java.io.Serializable;
@@ -31,11 +31,11 @@ import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-abstract class AbstractSingleArgument<T extends Expression<?>, V> implements Argument<T, V>, Serializable {
+abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implements Argument<T, V>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final V value;
+	final V value;
 
 	AbstractSingleArgument(V value) {
 		this.value = value;
@@ -54,6 +54,16 @@ abstract class AbstractSingleArgument<T extends Expression<?>, V> implements Arg
 				Function.identity(),
 				Collector.Characteristics.UNORDERED);
 		builder.and(Stream.concat(Stream.of(path), Stream.of(paths)).collect(collector));
+	}
+
+	@SafeVarargs
+	@Override
+	public final void append(BooleanBuilder builder, T path, T... paths) {
+		append(builder, getDefaultOperation(), path, paths);
+	}
+
+	protected BiFunction<T, V, BooleanExpression> getDefaultOperation() {
+		return T::eq;
 	}
 
 	@Override

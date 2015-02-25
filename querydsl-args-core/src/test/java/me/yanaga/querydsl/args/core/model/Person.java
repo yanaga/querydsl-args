@@ -21,8 +21,6 @@ package me.yanaga.querydsl.args.core.model;
  */
 
 import com.google.common.base.MoreObjects;
-import com.mysema.query.annotations.PropertyType;
-import com.mysema.query.annotations.QueryType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +29,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -40,55 +39,45 @@ public class Person {
 	@GeneratedValue
 	private Long id;
 
-	private String aString;
+	private String oneString;
 
 	private String anotherString;
 
-	private Integer anInteger;
+	private Integer oneInteger;
 
 	private Integer anotherInteger;
 
-	private Long aLong;
+	private Long oneLong;
 
 	private Long anotherLong;
 
-	private BigDecimal aBigDecimal;
+	private BigDecimal oneBigDecimal;
 
 	private BigDecimal anotherBigDecimal;
 
-	private BigInteger aBigInteger;
+	private BigInteger oneBigInteger;
 
 	private BigInteger anotherBigInteger;
 
-	private Date aDate;
+	private Date oneDate;
 
 	private Date anotherDate;
 
-	private Instant anInstant;
+	private Instant oneInstant;
 
 	private Instant anotherInstant;
 
-	private LocalDate aLocalDate;
+	private LocalDate oneLocalDate;
 
 	private LocalDate anotherLocalDate;
 
-	@QueryType(PropertyType.NUMERIC)
-	private CustomNumberType aCustomNumberType;
+	private LocalDateTime oneLocalDateTime;
 
-	@QueryType(PropertyType.NUMERIC)
+	private LocalDateTime anotherLocalDateTime;
+
+	private CustomNumberType oneCustomNumberType;
+
 	private CustomNumberType anotherCustomNumberType;
-
-	@QueryType(PropertyType.DATETIME)
-	private CustomDateTimeType aCustomDateTimeType;
-
-	@QueryType(PropertyType.DATETIME)
-	private CustomDateTimeType anotherCustomDateTimeType;
-
-	@QueryType(PropertyType.DATE)
-	private CustomDateType aCustomDateType;
-
-	@QueryType(PropertyType.DATE)
-	private CustomDateType anotherCustomDateType;
 
 	@Override
 	public String toString() {
@@ -99,12 +88,12 @@ public class Person {
 		return id;
 	}
 
-	public String getaString() {
-		return aString;
+	public String getOneString() {
+		return oneString;
 	}
 
-	public void setaString(String aString) {
-		this.aString = aString;
+	public void setOneString(String oneString) {
+		this.oneString = oneString;
 	}
 
 	public String getAnotherString() {
@@ -115,12 +104,12 @@ public class Person {
 		this.anotherString = anotherString;
 	}
 
-	public Integer getAnInteger() {
-		return anInteger;
+	public Integer getOneInteger() {
+		return oneInteger;
 	}
 
-	public void setAnInteger(Integer anInteger) {
-		this.anInteger = anInteger;
+	public void setOneInteger(Integer oneInteger) {
+		this.oneInteger = oneInteger;
 	}
 
 	public Integer getAnotherInteger() {
@@ -131,12 +120,12 @@ public class Person {
 		this.anotherInteger = anotherInteger;
 	}
 
-	public Long getaLong() {
-		return aLong;
+	public Long getOneLong() {
+		return oneLong;
 	}
 
-	public void setaLong(Long aLong) {
-		this.aLong = aLong;
+	public void setOneLong(Long oneLong) {
+		this.oneLong = oneLong;
 	}
 
 	public Long getAnotherLong() {
@@ -147,12 +136,12 @@ public class Person {
 		this.anotherLong = anotherLong;
 	}
 
-	public BigDecimal getaBigDecimal() {
-		return aBigDecimal;
+	public BigDecimal getOneBigDecimal() {
+		return oneBigDecimal;
 	}
 
-	public void setaBigDecimal(BigDecimal aBigDecimal) {
-		this.aBigDecimal = aBigDecimal;
+	public void setOneBigDecimal(BigDecimal oneBigDecimal) {
+		this.oneBigDecimal = oneBigDecimal;
 	}
 
 	public BigDecimal getAnotherBigDecimal() {
@@ -163,12 +152,12 @@ public class Person {
 		this.anotherBigDecimal = anotherBigDecimal;
 	}
 
-	public BigInteger getaBigInteger() {
-		return aBigInteger;
+	public BigInteger getOneBigInteger() {
+		return oneBigInteger;
 	}
 
-	public void setaBigInteger(BigInteger aBigInteger) {
-		this.aBigInteger = aBigInteger;
+	public void setOneBigInteger(BigInteger oneBigInteger) {
+		this.oneBigInteger = oneBigInteger;
 	}
 
 	public BigInteger getAnotherBigInteger() {
@@ -179,12 +168,12 @@ public class Person {
 		this.anotherBigInteger = anotherBigInteger;
 	}
 
-	public Date getaDate() {
-		return aDate;
+	public Date getOneDate() {
+		return oneDate;
 	}
 
-	public void setaDate(Date aDate) {
-		this.aDate = aDate;
+	public void setOneDate(Date oneDate) {
+		this.oneDate = oneDate;
 	}
 
 	public Date getAnotherDate() {
@@ -195,12 +184,12 @@ public class Person {
 		this.anotherDate = anotherDate;
 	}
 
-	public Instant getAnInstant() {
-		return anInstant;
+	public Instant getOneInstant() {
+		return oneInstant;
 	}
 
-	public void setAnInstant(Instant anInstant) {
-		this.anInstant = anInstant;
+	public void setOneInstant(Instant oneInstant) {
+		this.oneInstant = oneInstant;
 	}
 
 	public Instant getAnotherInstant() {
@@ -211,12 +200,12 @@ public class Person {
 		this.anotherInstant = anotherInstant;
 	}
 
-	public LocalDate getaLocalDate() {
-		return aLocalDate;
+	public LocalDate getOneLocalDate() {
+		return oneLocalDate;
 	}
 
-	public void setaLocalDate(LocalDate aLocalDate) {
-		this.aLocalDate = aLocalDate;
+	public void setOneLocalDate(LocalDate oneLocalDate) {
+		this.oneLocalDate = oneLocalDate;
 	}
 
 	public LocalDate getAnotherLocalDate() {
@@ -227,12 +216,28 @@ public class Person {
 		this.anotherLocalDate = anotherLocalDate;
 	}
 
-	public CustomNumberType getaCustomNumberType() {
-		return aCustomNumberType;
+	public LocalDateTime getOneLocalDateTime() {
+		return oneLocalDateTime;
 	}
 
-	public void setaCustomNumberType(CustomNumberType aCustomNumberType) {
-		this.aCustomNumberType = aCustomNumberType;
+	public void setOneLocalDateTime(LocalDateTime oneLocalDateTime) {
+		this.oneLocalDateTime = oneLocalDateTime;
+	}
+
+	public LocalDateTime getAnotherLocalDateTime() {
+		return anotherLocalDateTime;
+	}
+
+	public void setAnotherLocalDateTime(LocalDateTime anotherLocalDateTime) {
+		this.anotherLocalDateTime = anotherLocalDateTime;
+	}
+
+	public CustomNumberType getOneCustomNumberType() {
+		return oneCustomNumberType;
+	}
+
+	public void setOneCustomNumberType(CustomNumberType oneCustomNumberType) {
+		this.oneCustomNumberType = oneCustomNumberType;
 	}
 
 	public CustomNumberType getAnotherCustomNumberType() {
@@ -241,38 +246,6 @@ public class Person {
 
 	public void setAnotherCustomNumberType(CustomNumberType anotherCustomNumberType) {
 		this.anotherCustomNumberType = anotherCustomNumberType;
-	}
-
-	public CustomDateTimeType getaCustomDateTimeType() {
-		return aCustomDateTimeType;
-	}
-
-	public void setaCustomDateTimeType(CustomDateTimeType aCustomDateTimeType) {
-		this.aCustomDateTimeType = aCustomDateTimeType;
-	}
-
-	public CustomDateTimeType getAnotherCustomDateTimeType() {
-		return anotherCustomDateTimeType;
-	}
-
-	public void setAnotherCustomDateTimeType(CustomDateTimeType anotherCustomDateTimeType) {
-		this.anotherCustomDateTimeType = anotherCustomDateTimeType;
-	}
-
-	public CustomDateType getaCustomDateType() {
-		return aCustomDateType;
-	}
-
-	public void setaCustomDateType(CustomDateType aCustomDateType) {
-		this.aCustomDateType = aCustomDateType;
-	}
-
-	public CustomDateType getAnotherCustomDateType() {
-		return anotherCustomDateType;
-	}
-
-	public void setAnotherCustomDateType(CustomDateType anotherCustomDateType) {
-		this.anotherCustomDateType = anotherCustomDateType;
 	}
 
 }

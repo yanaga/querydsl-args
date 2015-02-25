@@ -20,15 +20,9 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.NumberExpression;
 import me.yanaga.querydsl.args.core.Argument;
 
 interface NumberArgument<T extends Number & Comparable<T>> extends Argument<NumberExpression<T>, T> {
-
-	@SuppressWarnings("unchecked")
-	public default void append(BooleanBuilder builder, NumberExpression<T> path, NumberExpression<T>... paths) {
-		append(builder, NumberExpression::eq, path, paths);
-	}
 
 }

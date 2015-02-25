@@ -20,32 +20,32 @@ package me.yanaga.querydsl.args.jsf;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.single.IntegerArgument;
+import me.yanaga.querydsl.args.core.single.StringArgument;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegerArgumentConverterTest {
+public class StringArgumentConverterTest {
 
-	private final IntegerArgumentConverter converter = new IntegerArgumentConverter();
+	private final StringArgumentConverter converter = new StringArgumentConverter();
 
 	@Test
 	public void testGetAsObject() throws Exception {
-		Object object = converter.getAsObject(null, null, "123");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
-		assertThat(object.toString()).isEqualTo("123");
+		Object object = converter.getAsObject(null, null, "abc");
+		assertThat(object).isInstanceOf(StringArgument.class);
+		assertThat(object.toString()).isEqualTo("abc");
 	}
 
 	@Test
 	public void testGetAsObjectWithEmpty() throws Exception {
 		Object object = converter.getAsObject(null, null, "");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
+		assertThat(object).isInstanceOf(StringArgument.class);
 		assertThat(object.toString()).isEqualTo("");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
-		assertThat(converter.getAsString(null, null, IntegerArgument.of(123))).isEqualTo("123");
+		assertThat(converter.getAsString(null, null, StringArgument.of("abc"))).isEqualTo("abc");
 	}
 
 }

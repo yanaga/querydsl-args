@@ -20,32 +20,32 @@ package me.yanaga.querydsl.args.jsf;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.single.IntegerArgument;
+import me.yanaga.querydsl.args.core.single.LongArgument;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegerArgumentConverterTest {
+public class LongArgumentConverterTest {
 
-	private final IntegerArgumentConverter converter = new IntegerArgumentConverter();
+	private final LongArgumentConverter converter = new LongArgumentConverter();
 
 	@Test
 	public void testGetAsObject() throws Exception {
 		Object object = converter.getAsObject(null, null, "123");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
+		assertThat(object).isInstanceOf(LongArgument.class);
 		assertThat(object.toString()).isEqualTo("123");
 	}
 
 	@Test
 	public void testGetAsObjectWithEmpty() throws Exception {
 		Object object = converter.getAsObject(null, null, "");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
+		assertThat(object).isInstanceOf(LongArgument.class);
 		assertThat(object.toString()).isEqualTo("");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
-		assertThat(converter.getAsString(null, null, IntegerArgument.of(123))).isEqualTo("123");
+		assertThat(converter.getAsString(null, null, LongArgument.of(123L))).isEqualTo("123");
 	}
 
 }

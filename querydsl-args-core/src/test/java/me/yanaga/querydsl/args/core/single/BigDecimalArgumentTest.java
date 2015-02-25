@@ -24,9 +24,9 @@ import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.mysema.query.types.expr.NumberExpression;
 import me.yanaga.querydsl.args.core.TestConfig;
+import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
-import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import org.assertj.core.api.Assertions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
@@ -40,7 +40,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = TestConfig.class)
-public class IntegerArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
+public class BigDecimalArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -48,71 +48,71 @@ public class IntegerArgumentTest extends AbstractTransactionalTestNGSpringContex
 	@BeforeMethod
 	public void setUp() {
 		Person person = new Person();
-		person.setOneInteger(123);
-		person.setAnotherInteger(321);
+		person.setOneBigDecimal(new BigDecimal("123.12"));
+		person.setAnotherBigDecimal(new BigDecimal("321"));
 		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
 		entityManager.persist(person);
 	}
 
 	@Test
 	public void testAppendDefaultOneArgument() {
-		IntegerArgument argument = IntegerArgument.of(123);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("123.12"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneInteger);
+		argument.append(builder, QPerson.person.oneBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneInteger()).isEqualTo(123);
+		assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
 	}
 
 	@Test
 	public void testAppendDefaultTwoArguments() {
-		IntegerArgument argument = IntegerArgument.of(123);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("123.12"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+		argument.append(builder, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneInteger()).isEqualTo(123);
+		assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
 	}
 
 	@Test
 	public void testAppendGoeTwoArguments() {
-		IntegerArgument argument = IntegerArgument.of(200);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("200"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getAnotherInteger()).isEqualTo(321);
+		assertThat(result.getAnotherBigDecimal()).isEqualTo(new BigDecimal("321"));
 	}
 
 	@Test
 	public void testAppendGoeTwoArgumentsWithNoResult() {
-		IntegerArgument argument = IntegerArgument.of(400);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("400"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		assertThat(result).isNull();
 	}
 
 	@Test
 	public void testAppendDefaultCustomNumberType() {
-		IntegerArgument argument = IntegerArgument.of(222);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("222"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
+		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
 	@Test
-	public void testAppendLoeCustomNumberTypeAndInteger() {
-		IntegerArgument argument = IntegerArgument.of(250);
+	public void testAppendLoeCustomNumberTypeAndBigDecimal() {
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("250"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.intValue(), QPerson.person.anotherInteger);
+		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class), QPerson.person.anotherBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
 	}
 
 	@Test
 	public void testAppendDefaultCustomNumberTypeWithNoResult() {
-		IntegerArgument argument = IntegerArgument.of(123);
+		BigDecimalArgument argument = BigDecimalArgument.of(new BigDecimal("123.12"));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
+		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		assertThat(result).isNull();
 	}

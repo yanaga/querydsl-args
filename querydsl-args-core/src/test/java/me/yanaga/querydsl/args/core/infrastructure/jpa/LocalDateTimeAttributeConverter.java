@@ -20,8 +20,6 @@ package me.yanaga.querydsl.args.core.infrastructure.jpa;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.model.CustomDateTimeType;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.time.LocalDateTime;
@@ -29,20 +27,20 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 @Converter(autoApply = true)
-public class CustomDateTimeTypeAttributeConverter implements AttributeConverter<CustomDateTimeType, Date> {
+public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Date> {
 
 	@Override
-	public Date convertToDatabaseColumn(CustomDateTimeType attribute) {
+	public Date convertToDatabaseColumn(LocalDateTime attribute) {
 		if (attribute != null) {
-			return Date.from(attribute.getValue().toInstant(ZoneOffset.UTC));
+			return Date.from(attribute.toInstant(ZoneOffset.UTC));
 		}
 		return null;
 	}
 
 	@Override
-	public CustomDateTimeType convertToEntityAttribute(Date dbData) {
+	public LocalDateTime convertToEntityAttribute(Date dbData) {
 		if (dbData != null) {
-			return CustomDateTimeType.of(LocalDateTime.ofInstant(dbData.toInstant(), ZoneOffset.UTC));
+			return LocalDateTime.ofInstant(dbData.toInstant(), ZoneOffset.UTC);
 		}
 		return null;
 	}
