@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>querydsl-args-jsf</artifactId>
+    <packaging>jar</packaging>
+    <name>querydsl-args-jsf</name>
+    <parent>
+        <groupId>me.yanaga</groupId>
+        <artifactId>querydsl-args</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>1.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <properties>
+        <mojarra.version>2.1.27</mojarra.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>me.yanaga</groupId>
+            <artifactId>querydsl-args-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>${mojarra.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>${mojarra.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

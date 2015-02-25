@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.yanaga</groupId>
-    <artifactId>queydsl-args</artifactId>
+    <artifactId>querydsl-args</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>queydsl-args</name>
+    <packaging>pom</packaging>
+    <name>querydsl-args</name>
     <organization>
         <name>Edson Yanaga</name>
         <url>http://www.yanaga.me</url>
     </organization>
     <inceptionYear>2014</inceptionYear>
-    <description>queydsl-args</description>
+    <description>querydsl-args</description>
     <url>https://github.com/yanaga/querydsl-args</url>
     <licenses>
         <license>
@@ -21,9 +21,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:yanaga/queydsl-args.git</connection>
-        <url>scm:git:git@github.com:yanaga/queydsl-args.git</url>
-        <developerConnection>scm:git:git@github.com:yanaga/queydsl-args.git</developerConnection>
+        <connection>scm:git:git@github.com:yanaga/querydsl-args.git</connection>
+        <url>scm:git:git@github.com:yanaga/querydsl-args.git</url>
+        <developerConnection>scm:git:git@github.com:yanaga/querydsl-args.git</developerConnection>
     </scm>
     <developers>
         <developer>
@@ -43,18 +43,33 @@
             <url>https://api.bintray.com/maven/yanaga/maven/querydsl-args</url>
         </repository>
     </distributionManagement>
+    <modules>
+        <module>querydsl-args-core</module>
+        <module>querydsl-args-jsf</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>1.1.1.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <querydsl.version>3.4.2</querydsl.version>
+        <querydsl.version>3.6.1</querydsl.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>17.0</version>
+            <version>18.0</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -62,27 +77,9 @@
             <version>1.7.7</version>
         </dependency>
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-sql</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>1.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -94,71 +91,6 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>com.mysema.maven</groupId>
-                <artifactId>apt-maven-plugin</artifactId>
-                <version>1.0.9</version>
-                <configuration>
-                    <logOnlyOnError>true</logOnlyOnError>
-                    <processors>
-                        <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-                    </processors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>target/generated-sources/java</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-sources</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>test-process</goal>
-                        </goals>
-                        <configuration>
-                            <testOutputDirectory>target/generated-test-sources/java</testOutputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.mysema.querydsl</groupId>
-                <artifactId>querydsl-maven-plugin</artifactId>
-                <version>3.3.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>export</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jdbcDriver>org.sqlite.JDBC</jdbcDriver>
-                    <jdbcUrl>jdbc:sqlite:sqlite.db</jdbcUrl>
-                    <packageName>me.yanaga.querydsl.args</packageName>
-                    <beanPackageName>br.com.insula.vim.sqlite.bean</beanPackageName>
-                    <targetFolder>${project.basedir}/target/generated-test-sources/sql</targetFolder>
-                    <exportBeans>true</exportBeans>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.xerial</groupId>
-                        <artifactId>sqlite-jdbc</artifactId>
-                        <version>3.7.15-M1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-simple</artifactId>
-                        <version>1.7.7</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
