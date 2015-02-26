@@ -24,20 +24,35 @@ import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.ComparableExpressionBase;
 import com.mysema.query.types.expr.StringExpression;
-import me.yanaga.querydsl.args.core.OptionalArgument;
+import me.yanaga.querydsl.args.core.Arguments;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-class SingleStringArgument extends AbstractSingleArgument<StringExpression, String> implements StringArgument {
+public class SingleStringArgument extends AbstractSingleArgument<StringExpression, String> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleStringArgument(String value) {
+	private SingleStringArgument(String value) {
 		super(value);
 	}
 
-	SingleStringArgument() {
+	public static SingleStringArgument of(String value) {
+		return new SingleStringArgument(value);
+	}
+
+	public static SingleStringArgument of() {
+		return of(null);
+	}
+
+	@Override
+	public final void append(BooleanBuilder builder, BiFunction<StringExpression, String, BooleanExpression> operation, StringExpression path, StringExpression... paths) {
+		super.append(builder, operation, path, paths);
+	}
+
+	@Override
+	public final void append(BooleanBuilder builder, StringExpression path, StringExpression... paths) {
+		super.append(builder, path, paths);
 	}
 
 	@SafeVarargs
@@ -45,7 +60,7 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		OptionalArgument.append(builder, value, operation, path.stringValue(), Stream.of(paths)
+		Arguments.append(builder, value, operation, path.stringValue(), Stream.of(paths)
 				.map(ComparableExpressionBase::stringValue)
 				.toArray(StringExpression[]::new));
 	}
@@ -54,7 +69,7 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 	public final void append(BooleanBuilder builder,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		OptionalArgument.append(builder, value, getDefaultOperation(), path.stringValue(), Stream.of(paths)
+		Arguments.append(builder, value, getDefaultOperation(), path.stringValue(), Stream.of(paths)
 				.map(ComparableExpressionBase::stringValue)
 				.toArray(StringExpression[]::new));
 	}

@@ -27,21 +27,29 @@ import java.time.format.DateTimeFormatter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class SingleLocalDateArgument extends AbstractSingleArgument<DateExpression<LocalDate>, LocalDate> implements LocalDateArgument {
+public class SingleLocalDateArgument extends AbstractTemporalArgument<DateExpression<LocalDate>, LocalDate> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleLocalDateArgument(LocalDate value) {
+	private SingleLocalDateArgument(LocalDate value) {
 		super(value);
 	}
 
-	SingleLocalDateArgument() {
+	public static SingleLocalDateArgument of(LocalDate value) {
+		return new SingleLocalDateArgument(value);
+	}
+
+	public static SingleLocalDateArgument of() {
+		return of(null);
 	}
 
 	@Override
 	public String format(DateTimeFormatter formatter) {
 		checkNotNull(formatter);
-		return value.format(formatter);
+		if (value != null) {
+			return value.format(formatter);
+		}
+		return "";
 	}
 
 }

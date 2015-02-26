@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core;
+package me.yanaga.querydsl.args.core.single;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-core
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -21,16 +21,31 @@ package me.yanaga.querydsl.args.core;
  */
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.Expression;
 import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.TemporalExpression;
 
+import java.time.format.DateTimeFormatter;
 import java.util.function.BiFunction;
 
-@SuppressWarnings("unchecked")
-public interface Argument<T extends Expression<?>, E extends Expression<V>, V> {
+public abstract class AbstractTemporalArgument<T extends TemporalExpression<V>, V extends Comparable<?>>
+		extends AbstractSingleArgument<T, V> {
 
-	public void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths);
+	protected AbstractTemporalArgument(V value) {
+		super(value);
+	}
 
-	public void append(BooleanBuilder builder, E path, E... paths);
+	@SafeVarargs
+	@Override
+	public final void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths) {
+		super.append(builder, operation, path, paths);
+	}
+
+	@SafeVarargs
+	@Override
+	public final void append(BooleanBuilder builder, T path, T... paths) {
+		super.append(builder, path, paths);
+	}
+
+	public abstract String format(DateTimeFormatter formatter);
 
 }

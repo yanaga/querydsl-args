@@ -21,29 +21,25 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.BigDecimalArgument;
+import me.yanaga.querydsl.args.core.single.SingleLongArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import java.math.BigDecimal;
 
-@FacesConverter(forClass = BigDecimalArgument.class)
-public class BigDecimalArgumentConverter implements Converter {
+@FacesConverter(forClass = SingleLongArgument.class)
+public class SingleLongArgumentConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (!Strings.isNullOrEmpty(value)) {
-			try {
-				return BigDecimalArgument.of(new BigDecimal(value.trim()));
-			}
-			catch (NumberFormatException ex) {
-				throw new ConverterException("Invalid Number.", ex);
+			String digits = value.replaceAll("\\D", "");
+			if (!Strings.isNullOrEmpty(digits)) {
+				return SingleLongArgument.of(Long.valueOf(digits));
 			}
 		}
-		return BigDecimalArgument.of();
+		return SingleLongArgument.of();
 	}
 
 	@Override

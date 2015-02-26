@@ -23,39 +23,43 @@ package me.yanaga.querydsl.args.core.single;
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
-import me.yanaga.querydsl.args.core.Argument;
-import me.yanaga.querydsl.args.core.OptionalArgument;
+import me.yanaga.querydsl.args.core.Arguments;
 
 import java.io.Serializable;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
-abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implements Argument<T, T, V>, Serializable {
+import static com.google.common.base.Preconditions.checkNotNull;
+
+public abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	final V value;
+	protected final V value;
 
-	AbstractSingleArgument(V value) {
+	protected AbstractSingleArgument(V value) {
 		this.value = value;
 	}
 
-	AbstractSingleArgument() {
-		this(null);
+	public void append(BooleanBuilder builder, Function<V, BooleanExpression> function) {
+		checkNotNull(builder);
+		checkNotNull(function);
+		if (value != null) {
+			builder.and(function.apply(value));
+		}
 	}
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder,
+	@SuppressWarnings("unchecked")
+	protected void append(BooleanBuilder builder,
 			BiFunction<T, V, BooleanExpression> operation,
 			T path,
 			T... paths) {
-		OptionalArgument.append(builder, value, operation, path, paths);
+		Arguments.append(builder, value, operation, path, paths);
 	}
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, T path, T... paths) {
-		OptionalArgument.append(builder, value, getDefaultOperation(), path, paths);
+	@SuppressWarnings("unchecked")
+	protected void append(BooleanBuilder builder, T path, T... paths) {
+		Arguments.append(builder, value, getDefaultOperation(), path, paths);
 	}
 
 	BiFunction<T, V, BooleanExpression> getDefaultOperation() {

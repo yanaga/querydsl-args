@@ -20,17 +20,20 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.NumberExpression;
-
-class SingleIntegerArgument extends AbstractSingleArgument<NumberExpression<Integer>, Integer> implements IntegerArgument {
+public class SingleIntegerArgument extends SingleNumberArgument<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleIntegerArgument(Integer value) {
+	private SingleIntegerArgument(Integer value) {
 		super(value);
 	}
 
-	SingleIntegerArgument() {
+	public static SingleIntegerArgument of(Integer value) {
+		return new SingleIntegerArgument(value);
+	}
+
+	public static SingleIntegerArgument of() {
+		return of(null);
 	}
 
 }

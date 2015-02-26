@@ -21,7 +21,7 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.collect.ImmutableMap;
-import me.yanaga.querydsl.args.core.single.LocalDateArgument;
+import me.yanaga.querydsl.args.core.single.SingleLocalDateArgument;
 import org.testng.annotations.Test;
 
 import javax.faces.component.UIComponent;
@@ -34,15 +34,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LocalDateArgumentConverterTest {
+public class SingleLocalDateArgumentConverterTest {
 
-	private final LocalDateArgumentConverter converter = new LocalDateArgumentConverter();
+	private final SingleLocalDateArgumentConverter converter = new SingleLocalDateArgumentConverter();
 
 	@Test
 	public void testGetAsObject() throws Exception {
 		UIComponent component = mock(UIComponent.class);
 		Object object = converter.getAsObject(null, component, "2015-02-27");
-		assertThat(object).isInstanceOf(LocalDateArgument.class);
+		assertThat(object).isInstanceOf(SingleLocalDateArgument.class);
 		assertThat(object.toString()).isEqualTo("2015-02-27");
 	}
 
@@ -58,8 +58,8 @@ public class LocalDateArgumentConverterTest {
 		Map<String, Object> attributes = ImmutableMap.of("pattern", "dd/MM/yyyy");
 		when(component.getAttributes()).thenReturn(attributes);
 		Object object = converter.getAsObject(null, component, "25/02/2015");
-		assertThat(object).isInstanceOf(LocalDateArgument.class);
-		LocalDateArgument argument = (LocalDateArgument) object;
+		assertThat(object).isInstanceOf(SingleLocalDateArgument.class);
+		SingleLocalDateArgument argument = (SingleLocalDateArgument) object;
 		assertThat(argument.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).isEqualTo("25/02/2015");
 	}
 
@@ -67,14 +67,14 @@ public class LocalDateArgumentConverterTest {
 	public void testGetAsObjectWithEmpty() throws Exception {
 		UIComponent component = mock(UIComponent.class);
 		Object object = converter.getAsObject(null, component, "");
-		assertThat(object).isInstanceOf(LocalDateArgument.class);
+		assertThat(object).isInstanceOf(SingleLocalDateArgument.class);
 		assertThat(object.toString()).isEqualTo("");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
 		UIComponent component = mock(UIComponent.class);
-		assertThat(converter.getAsString(null, component, LocalDateArgument.of(LocalDate.of(2015, 2, 25)))).isEqualTo("2015-02-25");
+		assertThat(converter.getAsString(null, component, SingleLocalDateArgument.of(LocalDate.of(2015, 2, 25)))).isEqualTo("2015-02-25");
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class LocalDateArgumentConverterTest {
 		UIComponent component = mock(UIComponent.class);
 		Map<String, Object> attributes = ImmutableMap.of("pattern", "dd/MM/yyyy");
 		when(component.getAttributes()).thenReturn(attributes);
-		assertThat(converter.getAsString(null, component, LocalDateArgument.of(LocalDate.of(2015, 2, 25)))).isEqualTo("25/02/2015");
+		assertThat(converter.getAsString(null, component, SingleLocalDateArgument.of(LocalDate.of(2015, 2, 25)))).isEqualTo("25/02/2015");
 	}
 
 }

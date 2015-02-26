@@ -21,14 +21,14 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.StringArgument;
+import me.yanaga.querydsl.args.core.single.SingleStringArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(forClass = StringArgument.class)
+@FacesConverter(forClass = SingleStringArgument.class)
 public class StringArgumentConverter implements Converter {
 
 	@Override
@@ -36,10 +36,10 @@ public class StringArgumentConverter implements Converter {
 		if (value != null) {
 			String trimmed = value.trim();
 			if (!Strings.isNullOrEmpty(trimmed)) {
-				return StringArgument.of(value.trim());
+				return SingleStringArgument.of(value.trim());
 			}
 		}
-		return StringArgument.of();
+		return SingleStringArgument.of();
 	}
 
 	@Override

@@ -21,7 +21,7 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.BigIntegerArgument;
+import me.yanaga.querydsl.args.core.single.SingleBigIntegerArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,18 +29,18 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import java.math.BigInteger;
 
-@FacesConverter(forClass = BigIntegerArgument.class)
-public class BigIntegerArgumentConverter implements Converter {
+@FacesConverter(forClass = SingleBigIntegerArgument.class)
+public class SingleBigIntegerArgumentConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		if (!Strings.isNullOrEmpty(value)) {
 			String digits = value.replaceAll("\\D", "");
 			if (!Strings.isNullOrEmpty(digits)) {
-				return BigIntegerArgument.of(new BigInteger(digits));
+				return SingleBigIntegerArgument.of(new BigInteger(digits));
 			}
 		}
-		return BigIntegerArgument.of();
+		return SingleBigIntegerArgument.of();
 	}
 
 	@Override

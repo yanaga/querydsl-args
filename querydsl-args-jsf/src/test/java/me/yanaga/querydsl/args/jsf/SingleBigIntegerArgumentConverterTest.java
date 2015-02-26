@@ -20,34 +20,34 @@ package me.yanaga.querydsl.args.jsf;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.single.BigIntegerArgument;
+import me.yanaga.querydsl.args.core.single.SingleBigIntegerArgument;
 import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BigIntegerArgumentConverterTest {
+public class SingleBigIntegerArgumentConverterTest {
 
-	private final BigIntegerArgumentConverter converter = new BigIntegerArgumentConverter();
+	private final SingleBigIntegerArgumentConverter converter = new SingleBigIntegerArgumentConverter();
 
 	@Test
 	public void testGetAsObject() throws Exception {
 		Object object = converter.getAsObject(null, null, "123");
-		assertThat(object).isInstanceOf(BigIntegerArgument.class);
+		assertThat(object).isInstanceOf(SingleBigIntegerArgument.class);
 		assertThat(object.toString()).isEqualTo("123");
 	}
 
 	@Test
 	public void testGetAsObjectWithEmpty() throws Exception {
 		Object object = converter.getAsObject(null, null, "");
-		assertThat(object).isInstanceOf(BigIntegerArgument.class);
+		assertThat(object).isInstanceOf(SingleBigIntegerArgument.class);
 		assertThat(object.toString()).isEqualTo("");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
-		assertThat(converter.getAsString(null, null, BigIntegerArgument.of(new BigInteger("123")))).isEqualTo("123");
+		assertThat(converter.getAsString(null, null, SingleBigIntegerArgument.of(new BigInteger("123")))).isEqualTo("123");
 	}
 
 }

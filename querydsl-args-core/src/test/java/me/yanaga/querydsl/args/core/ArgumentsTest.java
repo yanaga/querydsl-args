@@ -1,4 +1,4 @@
-package me.yanaga.querydsl.args.core.single;
+package me.yanaga.querydsl.args.core;
 
 /*
  * #%L
@@ -22,7 +22,8 @@ package me.yanaga.querydsl.args.core.single;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
-import me.yanaga.querydsl.args.core.TestConfig;
+import com.mysema.query.types.expr.SimpleExpression;
+import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,12 +33,13 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = TestConfig.class)
-public class LocalDateArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
+public class ArgumentsTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -45,19 +47,19 @@ public class LocalDateArgumentTest extends AbstractTransactionalTestNGSpringCont
 	@BeforeMethod
 	public void setUp() {
 		Person person = new Person();
-		person.setOneLocalDate(LocalDate.of(2015, 2, 25));
-		person.setAnotherLocalDate(LocalDate.of(2015, 2, 27));
+		person.setOneString("abcdef");
+		person.setAnotherString("uvwxyz");
+		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal("123")));
+		person.setAnotherCustomNumberType(CustomNumberType.of(new BigDecimal("321")));
 		entityManager.persist(person);
 	}
 
 	@Test
-	public void testAppendDefaultOneArgument() {
-		LocalDateArgument argument = LocalDateArgument.of(LocalDate.of(2015, 2, 25));
+	public void testAppendNullWithOperationAndTwoArguments() throws Exception {
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneLocalDate);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNotNull();
-		assertThat(result.getOneLocalDate()).isEqualTo(LocalDate.of(2015, 2, 25));
+		Arguments.<SimpleExpression, CustomNumberType>append(builder, null, SimpleExpression::eq, QPerson.person.oneCustomNumberType, QPerson.person.anotherCustomNumberType);
+		List<Person> result = new JPAQuery(entityManager).from(QPerson.person).where(builder).list(QPerson.person);
+		assertThat(result.size()).isEqualTo(1);
 	}
 
 }

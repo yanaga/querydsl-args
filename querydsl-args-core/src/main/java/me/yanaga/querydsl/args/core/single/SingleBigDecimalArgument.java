@@ -20,19 +20,22 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.NumberExpression;
-
 import java.math.BigDecimal;
 
-class SingleBigDecimalArgument extends AbstractSingleArgument<NumberExpression<BigDecimal>, BigDecimal> implements BigDecimalArgument {
+public class SingleBigDecimalArgument extends SingleNumberArgument<BigDecimal> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleBigDecimalArgument(BigDecimal value) {
+	private SingleBigDecimalArgument(BigDecimal value) {
 		super(value);
 	}
 
-	SingleBigDecimalArgument() {
+	public static SingleBigDecimalArgument of(BigDecimal value) {
+		return new SingleBigDecimalArgument(value);
+	}
+
+	public static SingleBigDecimalArgument of() {
+		return of(null);
 	}
 
 }

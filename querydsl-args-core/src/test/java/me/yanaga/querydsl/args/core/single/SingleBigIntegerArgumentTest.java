@@ -41,7 +41,7 @@ import java.math.BigInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = TestConfig.class)
-public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
+public class SingleBigIntegerArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -57,7 +57,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendDefaultOneArgument() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("123"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("123"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneBigInteger);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -66,7 +66,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendDefaultTwoArguments() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("123"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("123"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneBigInteger, QPerson.person.anotherBigInteger);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -75,7 +75,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendGoeTwoArguments() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("200"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("200"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigInteger, QPerson.person.anotherBigInteger);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -84,7 +84,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendGoeTwoArgumentsWithNoResult() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("400"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("400"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigInteger, QPerson.person.anotherBigInteger);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -93,7 +93,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendDefaultCustomNumberType() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("222"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("222"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigInteger.class));
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -102,7 +102,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendLoeCustomNumberTypeAndBigInteger() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("250"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("250"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.castToNum(BigInteger.class), QPerson.person.anotherBigInteger);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -111,7 +111,7 @@ public class BigIntegerArgumentTest extends AbstractTransactionalTestNGSpringCon
 
 	@Test
 	public void testAppendDefaultCustomNumberTypeWithNoResult() {
-		BigIntegerArgument argument = BigIntegerArgument.of(new BigInteger("123"));
+		SingleBigIntegerArgument argument = SingleBigIntegerArgument.of(new BigInteger("123"));
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigInteger.class));
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);

@@ -32,12 +32,12 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration(classes = TestConfig.class)
-public class LocalDateTimeArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
+public class SingleLocalDateArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -45,19 +45,19 @@ public class LocalDateTimeArgumentTest extends AbstractTransactionalTestNGSpring
 	@BeforeMethod
 	public void setUp() {
 		Person person = new Person();
-		person.setOneLocalDateTime(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
-		person.setAnotherLocalDateTime(LocalDateTime.of(2015, 2, 27, 18, 45, 3));
+		person.setOneLocalDate(LocalDate.of(2015, 2, 25));
+		person.setAnotherLocalDate(LocalDate.of(2015, 2, 27));
 		entityManager.persist(person);
 	}
 
 	@Test
 	public void testAppendDefaultOneArgument() {
-		LocalDateTimeArgument argument = LocalDateTimeArgument.of(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
+		SingleLocalDateArgument argument = SingleLocalDateArgument.of(LocalDate.of(2015, 2, 25));
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneLocalDateTime);
+		argument.append(builder, QPerson.person.oneLocalDate);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		assertThat(result).isNotNull();
-		assertThat(result.getOneLocalDateTime()).isEqualTo((LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0)));
+		assertThat(result.getOneLocalDate()).isEqualTo(LocalDate.of(2015, 2, 25));
 	}
 
 }

@@ -2,7 +2,7 @@ package me.yanaga.querydsl.args.core;
 
 /*
  * #%L
- * querydsl-args-core
+ * queydsl-args
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -25,23 +25,14 @@ import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static me.yanaga.querydsl.args.core.stream.ArgumentCollectors.toBooleanBuilder;
 
-public class OptionalArgument {
+public class Arguments {
 
-	private OptionalArgument() {
-	}
-
-	public static <T> void append(BooleanBuilder builder, T value, Function<T, BooleanExpression> function) {
-		checkNotNull(builder);
-		checkNotNull(function);
-		if (value != null) {
-			builder.and(function.apply(value));
-		}
+	private Arguments() {
 	}
 
 	@SafeVarargs
@@ -57,14 +48,6 @@ public class OptionalArgument {
 				.filter(e -> value != null && e != null)
 				.map(e -> operation.apply(e, value))
 				.collect(toBooleanBuilder()));
-	}
-
-	@SafeVarargs
-	public static <T extends SimpleExpression<V>, V> void append(BooleanBuilder builder,
-			V value,
-			T path,
-			T... paths) {
-		append(builder, value, T::eq, path, paths);
 	}
 
 }

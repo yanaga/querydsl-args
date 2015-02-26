@@ -20,7 +20,7 @@ package me.yanaga.querydsl.args.jsf;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.single.StringArgument;
+import me.yanaga.querydsl.args.core.single.SingleStringArgument;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,20 +32,20 @@ public class StringArgumentConverterTest {
 	@Test
 	public void testGetAsObject() throws Exception {
 		Object object = converter.getAsObject(null, null, "abc");
-		assertThat(object).isInstanceOf(StringArgument.class);
+		assertThat(object).isInstanceOf(SingleStringArgument.class);
 		assertThat(object.toString()).isEqualTo("abc");
 	}
 
 	@Test
 	public void testGetAsObjectWithEmpty() throws Exception {
 		Object object = converter.getAsObject(null, null, "");
-		assertThat(object).isInstanceOf(StringArgument.class);
+		assertThat(object).isInstanceOf(SingleStringArgument.class);
 		assertThat(object.toString()).isEqualTo("");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
-		assertThat(converter.getAsString(null, null, StringArgument.of("abc"))).isEqualTo("abc");
+		assertThat(converter.getAsString(null, null, SingleStringArgument.of("abc"))).isEqualTo("abc");
 	}
 
 }

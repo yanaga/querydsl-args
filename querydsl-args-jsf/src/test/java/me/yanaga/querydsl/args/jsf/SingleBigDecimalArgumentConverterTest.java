@@ -20,32 +20,40 @@ package me.yanaga.querydsl.args.jsf;
  * #L%
  */
 
-import me.yanaga.querydsl.args.core.single.IntegerArgument;
+import me.yanaga.querydsl.args.core.single.SingleBigDecimalArgument;
 import org.testng.annotations.Test;
+
+import javax.faces.convert.ConverterException;
+import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegerArgumentConverterTest {
+public class SingleBigDecimalArgumentConverterTest {
 
-	private final IntegerArgumentConverter converter = new IntegerArgumentConverter();
+	private final SingleBigDecimalArgumentConverter converter = new SingleBigDecimalArgumentConverter();
 
 	@Test
 	public void testGetAsObject() throws Exception {
-		Object object = converter.getAsObject(null, null, "123");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
-		assertThat(object.toString()).isEqualTo("123");
+		Object object = converter.getAsObject(null, null, "123.00");
+		assertThat(object).isInstanceOf(SingleBigDecimalArgument.class);
+		assertThat(object.toString()).isEqualTo("123.00");
 	}
 
 	@Test
 	public void testGetAsObjectWithEmpty() throws Exception {
 		Object object = converter.getAsObject(null, null, "");
-		assertThat(object).isInstanceOf(IntegerArgument.class);
+		assertThat(object).isInstanceOf(SingleBigDecimalArgument.class);
 		assertThat(object.toString()).isEqualTo("");
+	}
+
+	@Test(expectedExceptions = ConverterException.class)
+	public void testGetAsObjectWithInvalidInput() throws Exception {
+		converter.getAsObject(null, null, "abc");
 	}
 
 	@Test
 	public void testGetAsString() throws Exception {
-		assertThat(converter.getAsString(null, null, IntegerArgument.of(123))).isEqualTo("123");
+		assertThat(converter.getAsString(null, null, SingleBigDecimalArgument.of(new BigDecimal("123.321")))).isEqualTo("123.321");
 	}
 
 }

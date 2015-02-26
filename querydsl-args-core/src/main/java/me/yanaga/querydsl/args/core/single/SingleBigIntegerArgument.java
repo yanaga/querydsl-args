@@ -20,19 +20,22 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.NumberExpression;
-
 import java.math.BigInteger;
 
-class SingleBigIntegerArgument extends AbstractSingleArgument<NumberExpression<BigInteger>, BigInteger> implements BigIntegerArgument {
+public class SingleBigIntegerArgument extends SingleNumberArgument<BigInteger> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleBigIntegerArgument(BigInteger value) {
+	private SingleBigIntegerArgument(BigInteger value) {
 		super(value);
 	}
 
-	SingleBigIntegerArgument() {
+	public static SingleBigIntegerArgument of(BigInteger value) {
+		return new SingleBigIntegerArgument(value);
+	}
+
+	public static SingleBigIntegerArgument of() {
+		return of(null);
 	}
 
 }

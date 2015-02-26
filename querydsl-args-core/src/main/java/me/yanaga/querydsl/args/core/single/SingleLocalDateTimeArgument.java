@@ -27,15 +27,20 @@ import java.time.format.DateTimeFormatter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-class SingleLocalDateTimeArgument extends AbstractSingleArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> implements LocalDateTimeArgument {
+public class SingleLocalDateTimeArgument extends AbstractTemporalArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> {
 
 	private static final long serialVersionUID = 1L;
 
-	SingleLocalDateTimeArgument(LocalDateTime value) {
+	private SingleLocalDateTimeArgument(LocalDateTime value) {
 		super(value);
 	}
 
-	SingleLocalDateTimeArgument() {
+	public static SingleLocalDateTimeArgument of(LocalDateTime value) {
+		return new SingleLocalDateTimeArgument(value);
+	}
+
+	public static SingleLocalDateTimeArgument of() {
+		return of(null);
 	}
 
 	@Override

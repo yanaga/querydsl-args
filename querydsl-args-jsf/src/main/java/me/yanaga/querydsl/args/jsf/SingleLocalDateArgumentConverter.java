@@ -21,38 +21,38 @@ package me.yanaga.querydsl.args.jsf;
  */
 
 import com.google.common.base.Strings;
-import me.yanaga.querydsl.args.core.single.LocalDateTimeArgument;
+import me.yanaga.querydsl.args.core.single.SingleLocalDateArgument;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-@FacesConverter(forClass = LocalDateTimeArgument.class)
-public class LocalDateTimeArgumentConverter extends AbstractTemporalArgumentConverter {
+@FacesConverter(forClass = SingleLocalDateArgument.class)
+public class SingleLocalDateArgumentConverter extends AbstractTemporalArgumentConverter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		DateTimeFormatter pattern = getPattern(component);
 		if (!Strings.isNullOrEmpty(value)) {
 			try {
-				return LocalDateTimeArgument.of(LocalDateTime.parse(value.trim(), pattern));
+				return SingleLocalDateArgument.of(LocalDate.parse(value.trim(), pattern));
 			}
 			catch (DateTimeParseException ex) {
 				throw new ConverterException("Invalid Date", ex);
 			}
 		}
-		return LocalDateTimeArgument.of();
+		return SingleLocalDateArgument.of();
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		if (value != null) {
 			DateTimeFormatter pattern = getPattern(component);
-			LocalDateTimeArgument argument = (LocalDateTimeArgument) value;
+			SingleLocalDateArgument argument = (SingleLocalDateArgument) value;
 			return argument.format(pattern);
 		}
 		return null;
@@ -60,7 +60,7 @@ public class LocalDateTimeArgumentConverter extends AbstractTemporalArgumentConv
 
 	@Override
 	DateTimeFormatter getDefaultPattern() {
-		return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		return DateTimeFormatter.ISO_LOCAL_DATE;
 	}
 
 }

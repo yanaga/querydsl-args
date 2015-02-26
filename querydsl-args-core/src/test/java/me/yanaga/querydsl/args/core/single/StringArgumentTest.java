@@ -50,8 +50,16 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 	}
 
 	@Test
+	public void testAppendFunction() {
+		BooleanBuilder builder = new BooleanBuilder();
+		SingleArgument.of("cd").append(builder, QPerson.person.oneString::containsIgnoreCase);
+		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		assertThat(result.getOneString()).isEqualTo("abcdef");
+	}
+
+	@Test
 	public void testAppendDefaultOneArgument() {
-		StringArgument argument = StringArgument.of("cd");
+		SingleStringArgument argument = SingleStringArgument.of("cd");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -60,7 +68,7 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 
 	@Test
 	public void testAppendDefaultOneArgumentWithNoResult() {
-		StringArgument argument = StringArgument.of("yanaga");
+		SingleStringArgument argument = SingleStringArgument.of("yanaga");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -69,7 +77,7 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 
 	@Test
 	public void testAppendStartsWithTwoArguments() {
-		StringArgument argument = StringArgument.of("a");
+		SingleStringArgument argument = SingleStringArgument.of("a");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -78,7 +86,7 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 
 	@Test
 	public void testAppendDefaultWithThreeArgumentsUsingComparable() {
-		StringArgument argument = StringArgument.of("a");
+		SingleStringArgument argument = SingleStringArgument.of("a");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
@@ -87,7 +95,7 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 
 	@Test
 	public void testAppendStartsWithThreeArgumentsUsingComparable() {
-		StringArgument argument = StringArgument.of("z");
+		SingleStringArgument argument = SingleStringArgument.of("z");
 		BooleanBuilder builder = new BooleanBuilder();
 		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
