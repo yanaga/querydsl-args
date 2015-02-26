@@ -25,7 +25,7 @@ import me.yanaga.querydsl.args.core.Argument;
 
 import java.time.format.DateTimeFormatter;
 
-interface TemporalArgument<T extends TemporalExpression<V>, V extends Comparable<?>> extends Argument<T, V> {
+interface TemporalArgument<T extends TemporalExpression<V>, V extends Comparable<?>> extends Argument<T, T, V> {
 
 	public String format(DateTimeFormatter formatter);
 

@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core;
+package me.yanaga.querydsl.args.core.stream;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-core
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -21,16 +21,21 @@ package me.yanaga.querydsl.args.core;
  */
 
 import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.Expression;
-import com.mysema.query.types.expr.BooleanExpression;
+import me.yanaga.querydsl.args.core.model.QPerson;
+import org.testng.annotations.Test;
 
-import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
-@SuppressWarnings("unchecked")
-public interface Argument<T extends Expression<?>, E extends Expression<V>, V> {
+import static org.assertj.core.api.Assertions.assertThat;
 
-	public void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths);
+public class ArgumentCollectorsTest {
 
-	public void append(BooleanBuilder builder, E path, E... paths);
+	@Test
+	public void testToBooleanBuilder() throws Exception {
+		BooleanBuilder builder = Stream.of(QPerson.person.oneString, QPerson.person.anotherString)
+				.map(e -> e.startsWith("abc"))
+				.collect(ArgumentCollectors.toBooleanBuilder());
+		assertThat(builder.toString()).isEqualTo("startsWith(person.oneString,abc) || startsWith(person.anotherString,abc)");
+	}
 
 }

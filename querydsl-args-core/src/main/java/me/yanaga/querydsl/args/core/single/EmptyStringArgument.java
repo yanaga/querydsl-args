@@ -20,8 +20,25 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.path.StringPath;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.ComparableExpressionBase;
+import com.mysema.query.types.expr.StringExpression;
 
-class EmptyStringArgument extends AbstractEmptyArgument<StringPath, String> implements StringArgument {
+import java.util.function.BiFunction;
+
+class EmptyStringArgument extends AbstractEmptyArgument<StringExpression, String> implements StringArgument {
+
+	@SafeVarargs
+	@Override
+	public final void append(BooleanBuilder builder, BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operationFunction, ComparableExpressionBase<? extends Comparable<?>> path, ComparableExpressionBase<? extends Comparable<?>>... paths) {
+
+	}
+
+	@SafeVarargs
+	@Override
+	public final void append(BooleanBuilder builder, ComparableExpressionBase<? extends Comparable<?>> path, ComparableExpressionBase<? extends Comparable<?>>... paths) {
+
+	}
 
 }

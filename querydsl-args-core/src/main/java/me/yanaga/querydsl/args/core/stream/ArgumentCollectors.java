@@ -1,8 +1,8 @@
-package me.yanaga.querydsl.args.core.single;
+package me.yanaga.querydsl.args.core.stream;
 
 /*
  * #%L
- * queydsl-args
+ * querydsl-args-core
  * %%
  * Copyright (C) 2014 - 2015 Edson Yanaga
  * %%
@@ -20,9 +20,24 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.NumberExpression;
-import me.yanaga.querydsl.args.core.Argument;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.types.expr.BooleanExpression;
 
-interface NumberArgument<T extends Number & Comparable<T>> extends Argument<NumberExpression<T>, NumberExpression<T>, T> {
+import java.util.function.Function;
+import java.util.stream.Collector;
+
+public class ArgumentCollectors {
+
+	private ArgumentCollectors() {
+	}
+
+	public static Collector<BooleanExpression, BooleanBuilder, BooleanBuilder> toBooleanBuilder() {
+		return Collector.of(
+				BooleanBuilder::new,
+				BooleanBuilder::or,
+				BooleanBuilder::or,
+				Function.identity(),
+				Collector.Characteristics.UNORDERED);
+	}
 
 }

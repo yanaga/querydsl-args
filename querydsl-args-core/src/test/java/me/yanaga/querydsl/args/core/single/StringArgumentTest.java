@@ -22,7 +22,6 @@ package me.yanaga.querydsl.args.core.single;
 
 import com.mysema.query.BooleanBuilder;
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.path.StringPath;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -72,7 +71,25 @@ public class StringArgumentTest extends AbstractTransactionalTestNGSpringContext
 	public void testAppendStartsWithTwoArguments() {
 		StringArgument argument = StringArgument.of("a");
 		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, StringPath::startsWith, QPerson.person.oneString, QPerson.person.anotherString);
+		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString);
+		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
+	}
+
+	@Test
+	public void testAppendDefaultWithThreeArgumentsUsingComparable() {
+		StringArgument argument = StringArgument.of("a");
+		BooleanBuilder builder = new BooleanBuilder();
+		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
+		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
+		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
+	}
+
+	@Test
+	public void testAppendStartsWithThreeArgumentsUsingComparable() {
+		StringArgument argument = StringArgument.of("z");
+		BooleanBuilder builder = new BooleanBuilder();
+		argument.append(builder, QPerson.person.oneString, QPerson.person.anotherString, QPerson.person.oneBigDecimal);
 		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
 		assertThat(result.getAnotherString()).isEqualTo("uvwxyz");
 	}

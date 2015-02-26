@@ -20,12 +20,27 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.path.StringPath;
+import com.mysema.query.BooleanBuilder;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.expr.ComparableExpressionBase;
+import com.mysema.query.types.expr.StringExpression;
 import me.yanaga.querydsl.args.core.Argument;
+
+import java.util.function.BiFunction;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public interface StringArgument extends Argument<StringPath, String> {
+@SuppressWarnings("unchecked")
+public interface StringArgument extends Argument<StringExpression, StringExpression, String> {
+
+	public void append(BooleanBuilder builder,
+			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operationFunction,
+			ComparableExpressionBase<? extends Comparable<?>> path,
+			ComparableExpressionBase<? extends Comparable<?>>... paths);
+
+	public void append(BooleanBuilder builder,
+			ComparableExpressionBase<? extends Comparable<?>> path,
+			ComparableExpressionBase<? extends Comparable<?>>... paths);
 
 	public static StringArgument of(String value) {
 		checkNotNull(value);

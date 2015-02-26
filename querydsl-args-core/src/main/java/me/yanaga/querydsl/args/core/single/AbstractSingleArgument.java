@@ -24,46 +24,41 @@ import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
 import me.yanaga.querydsl.args.core.Argument;
+import me.yanaga.querydsl.args.core.OptionalArgument;
 
 import java.io.Serializable;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
 
-abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implements Argument<T, V>, Serializable {
+abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implements Argument<T, T, V>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	final V value;
 
-	AbstractSingleArgument(V value) {
+	final BiFunction<T, V, BooleanExpression> defaultOperation;
+
+	AbstractSingleArgument(V value, BiFunction<T, V, BooleanExpression> defaultOperation) {
 		this.value = value;
+		this.defaultOperation = defaultOperation;
+	}
+
+	public AbstractSingleArgument(V value) {
+		this(value, SimpleExpression::eq);
 	}
 
 	@SafeVarargs
 	@Override
 	public final void append(BooleanBuilder builder,
-			BiFunction<T, V, BooleanExpression> operationFunction,
+			BiFunction<T, V, BooleanExpression> operation,
 			T path,
 			T... paths) {
-		Collector<T, BooleanBuilder, BooleanBuilder> collector = Collector.of(
-				BooleanBuilder::new,
-				(b, t) -> b.or(operationFunction.apply(t, value)),
-				BooleanBuilder::or,
-				Function.identity(),
-				Collector.Characteristics.UNORDERED);
-		builder.and(Stream.concat(Stream.of(path), Stream.of(paths)).collect(collector));
+		OptionalArgument.append(builder, value, operation, path, paths);
 	}
 
 	@SafeVarargs
 	@Override
 	public final void append(BooleanBuilder builder, T path, T... paths) {
-		append(builder, getDefaultOperation(), path, paths);
-	}
-
-	protected BiFunction<T, V, BooleanExpression> getDefaultOperation() {
-		return T::eq;
+		OptionalArgument.append(builder, value, defaultOperation, path, paths);
 	}
 
 	@Override

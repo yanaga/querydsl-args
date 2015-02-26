@@ -28,11 +28,11 @@ import me.yanaga.querydsl.args.core.Argument;
 import java.io.Serializable;
 import java.util.function.BiFunction;
 
-abstract class AbstractEmptyArgument<T extends Expression<V>, V> implements Argument<T, V>, Serializable {
+abstract class AbstractEmptyArgument<T extends Expression<V>, V> implements Argument<T, T, V>, Serializable {
 
 	@SafeVarargs
 	@Override
-	public final void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operationFunction, T path, T... paths) {
+	public final void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths) {
 	}
 
 	@SafeVarargs

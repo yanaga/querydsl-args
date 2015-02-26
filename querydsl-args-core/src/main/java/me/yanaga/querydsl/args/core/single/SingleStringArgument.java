@@ -20,22 +20,39 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
+import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.StringPath;
+import com.mysema.query.types.expr.ComparableExpressionBase;
+import com.mysema.query.types.expr.StringExpression;
 
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
-class SingleStringArgument extends AbstractSingleArgument<StringPath, String> implements StringArgument {
+class SingleStringArgument extends AbstractSingleArgument<StringExpression, String> implements StringArgument {
 
 	private static final long serialVersionUID = 1L;
 
 	SingleStringArgument(String value) {
-		super(value);
+		super(value, StringExpression::containsIgnoreCase);
 	}
 
-	@Override
-	protected BiFunction<StringPath, String, BooleanExpression> getDefaultOperation() {
-		return StringPath::containsIgnoreCase;
+	@SafeVarargs
+	public final void append(BooleanBuilder builder,
+			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,
+			ComparableExpressionBase<? extends Comparable<?>> path,
+			ComparableExpressionBase<? extends Comparable<?>>... paths) {
+		append(builder, operation, path.stringValue(), Stream.of(paths)
+				.map(ComparableExpressionBase::stringValue)
+				.toArray(StringExpression[]::new));
+	}
+
+	@SafeVarargs
+	public final void append(BooleanBuilder builder,
+			ComparableExpressionBase<? extends Comparable<?>> path,
+			ComparableExpressionBase<? extends Comparable<?>>... paths) {
+		append(builder, path.stringValue(), Stream.of(paths)
+				.map(ComparableExpressionBase::stringValue)
+				.toArray(StringExpression[]::new));
 	}
 
 }
