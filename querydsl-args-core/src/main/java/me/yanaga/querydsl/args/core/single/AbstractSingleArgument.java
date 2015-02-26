@@ -35,19 +35,12 @@ abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implemen
 
 	final V value;
 
-	final BiFunction<T, V, BooleanExpression> defaultOperation;
-
-	AbstractSingleArgument(V value, BiFunction<T, V, BooleanExpression> defaultOperation) {
-		this.value = value;
-		this.defaultOperation = defaultOperation;
-	}
-
 	AbstractSingleArgument(V value) {
-		this(value, SimpleExpression::eq);
+		this.value = value;
 	}
 
 	AbstractSingleArgument() {
-		this(null, SimpleExpression::eq);
+		this(null);
 	}
 
 	@SafeVarargs
@@ -62,7 +55,11 @@ abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implemen
 	@SafeVarargs
 	@Override
 	public final void append(BooleanBuilder builder, T path, T... paths) {
-		OptionalArgument.append(builder, value, defaultOperation, path, paths);
+		OptionalArgument.append(builder, value, getDefaultOperation(), path, paths);
+	}
+
+	BiFunction<T, V, BooleanExpression> getDefaultOperation() {
+		return SimpleExpression::eq;
 	}
 
 	@Override

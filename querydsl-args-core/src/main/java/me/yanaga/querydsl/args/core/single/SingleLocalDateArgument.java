@@ -36,7 +36,6 @@ class SingleLocalDateArgument extends AbstractSingleArgument<DateExpression<Loca
 	}
 
 	SingleLocalDateArgument() {
-		this(null);
 	}
 
 	@Override

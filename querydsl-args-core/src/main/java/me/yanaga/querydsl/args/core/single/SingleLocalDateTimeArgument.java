@@ -36,7 +36,6 @@ class SingleLocalDateTimeArgument extends AbstractSingleArgument<DateTimeExpress
 	}
 
 	SingleLocalDateTimeArgument() {
-		this(null);
 	}
 
 	@Override

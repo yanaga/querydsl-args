@@ -33,7 +33,6 @@ class SingleBigIntegerArgument extends AbstractSingleArgument<NumberExpression<B
 	}
 
 	SingleBigIntegerArgument() {
-		this(null);
 	}
 
 }

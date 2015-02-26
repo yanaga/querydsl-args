@@ -33,7 +33,6 @@ class SingleBigDecimalArgument extends AbstractSingleArgument<NumberExpression<B
 	}
 
 	SingleBigDecimalArgument() {
-		this(null);
 	}
 
 }

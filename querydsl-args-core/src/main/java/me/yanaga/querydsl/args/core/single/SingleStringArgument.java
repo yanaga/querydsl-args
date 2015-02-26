@@ -24,6 +24,7 @@ import com.mysema.query.BooleanBuilder;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.ComparableExpressionBase;
 import com.mysema.query.types.expr.StringExpression;
+import me.yanaga.querydsl.args.core.OptionalArgument;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
@@ -33,11 +34,10 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 	private static final long serialVersionUID = 1L;
 
 	SingleStringArgument(String value) {
-		super(value, StringExpression::containsIgnoreCase);
+		super(value);
 	}
 
 	SingleStringArgument() {
-		this(null);
 	}
 
 	@SafeVarargs
@@ -45,7 +45,7 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		append(builder, operation, path.stringValue(), Stream.of(paths)
+		OptionalArgument.append(builder, value, operation, path.stringValue(), Stream.of(paths)
 				.map(ComparableExpressionBase::stringValue)
 				.toArray(StringExpression[]::new));
 	}
@@ -54,9 +54,14 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 	public final void append(BooleanBuilder builder,
 			ComparableExpressionBase<? extends Comparable<?>> path,
 			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		append(builder, path.stringValue(), Stream.of(paths)
+		OptionalArgument.append(builder, value, getDefaultOperation(), path.stringValue(), Stream.of(paths)
 				.map(ComparableExpressionBase::stringValue)
 				.toArray(StringExpression[]::new));
+	}
+
+	@Override
+	BiFunction<StringExpression, String, BooleanExpression> getDefaultOperation() {
+		return StringExpression::containsIgnoreCase;
 	}
 
 }

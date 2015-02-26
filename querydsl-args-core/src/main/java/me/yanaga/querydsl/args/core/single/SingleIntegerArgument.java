@@ -31,7 +31,6 @@ class SingleIntegerArgument extends AbstractSingleArgument<NumberExpression<Inte
 	}
 
 	SingleIntegerArgument() {
-		this(null);
 	}
 
 }
