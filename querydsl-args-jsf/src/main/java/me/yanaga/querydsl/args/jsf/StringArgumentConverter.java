@@ -33,8 +33,11 @@ public class StringArgumentConverter implements Converter {
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		if (!Strings.isNullOrEmpty(value)) {
-			return StringArgument.of(value.trim());
+		if (value != null) {
+			String trimmed = value.trim();
+			if (!Strings.isNullOrEmpty(trimmed)) {
+				return StringArgument.of(value.trim());
+			}
 		}
 		return StringArgument.of();
 	}
