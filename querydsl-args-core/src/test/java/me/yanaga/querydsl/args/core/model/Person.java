@@ -75,6 +75,10 @@ public class Person {
 
 	private LocalDateTime anotherLocalDateTime;
 
+	private CustomComparableType oneCustomComparableType;
+
+	private CustomComparableType anotherCustomComparableType;
+
 	private CustomNumberType oneCustomNumberType;
 
 	private CustomNumberType anotherCustomNumberType;
@@ -230,6 +234,22 @@ public class Person {
 
 	public void setAnotherLocalDateTime(LocalDateTime anotherLocalDateTime) {
 		this.anotherLocalDateTime = anotherLocalDateTime;
+	}
+
+	public CustomComparableType getOneCustomComparableType() {
+		return oneCustomComparableType;
+	}
+
+	public void setOneCustomComparableType(CustomComparableType oneCustomComparableType) {
+		this.oneCustomComparableType = oneCustomComparableType;
+	}
+
+	public CustomComparableType getAnotherCustomComparableType() {
+		return anotherCustomComparableType;
+	}
+
+	public void setAnotherCustomComparableType(CustomComparableType anotherCustomComparableType) {
+		this.anotherCustomComparableType = anotherCustomComparableType;
 	}
 
 	public CustomNumberType getOneCustomNumberType() {

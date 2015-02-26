@@ -38,6 +38,10 @@ public class SingleArgument {
 		return SingleBigIntegerArgument.of(value);
 	}
 
+	public static <T extends Comparable<T>> SingleComparableArgument<T> of(T value) {
+		return SingleComparableArgument.of(value);
+	}
+
 	public static SingleIntegerArgument of(Integer value) {
 		return SingleIntegerArgument.of(value);
 	}
@@ -65,4 +69,5 @@ public class SingleArgument {
 	public static SingleStringArgument of(String value) {
 		return SingleStringArgument.of(value);
 	}
+
 }
