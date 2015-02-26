@@ -30,4 +30,8 @@ class SingleLongArgument extends AbstractSingleArgument<NumberExpression<Long>, 
 		super(value);
 	}
 
+	SingleLongArgument() {
+		this(null);
+	}
+
 }

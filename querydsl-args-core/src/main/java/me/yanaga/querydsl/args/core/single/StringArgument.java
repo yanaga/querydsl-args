@@ -48,7 +48,7 @@ public interface StringArgument extends Argument<StringExpression, StringExpress
 	}
 
 	public static StringArgument of() {
-		return new EmptyStringArgument();
+		return new SingleStringArgument();
 	}
 
 }

@@ -35,6 +35,10 @@ class SingleLocalDateArgument extends AbstractSingleArgument<DateExpression<Loca
 		super(value);
 	}
 
+	SingleLocalDateArgument() {
+		this(null);
+	}
+
 	@Override
 	public String format(DateTimeFormatter formatter) {
 		checkNotNull(formatter);

@@ -42,8 +42,12 @@ abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implemen
 		this.defaultOperation = defaultOperation;
 	}
 
-	public AbstractSingleArgument(V value) {
+	AbstractSingleArgument(V value) {
 		this(value, SimpleExpression::eq);
+	}
+
+	AbstractSingleArgument() {
+		this(null, SimpleExpression::eq);
 	}
 
 	@SafeVarargs
@@ -63,7 +67,10 @@ abstract class AbstractSingleArgument<T extends SimpleExpression<V>, V> implemen
 
 	@Override
 	public String toString() {
-		return value.toString();
+		if (value != null) {
+			return value.toString();
+		}
+		return "";
 	}
 
 }

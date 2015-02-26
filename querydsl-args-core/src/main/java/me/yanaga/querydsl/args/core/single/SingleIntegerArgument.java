@@ -30,4 +30,8 @@ class SingleIntegerArgument extends AbstractSingleArgument<NumberExpression<Inte
 		super(value);
 	}
 
+	SingleIntegerArgument() {
+		this(null);
+	}
+
 }

@@ -27,12 +27,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public interface BigDecimalArgument extends NumberArgument<BigDecimal> {
 
 	public static BigDecimalArgument of(BigDecimal value) {
-		checkNotNull(value);
 		return new SingleBigDecimalArgument(value);
 	}
 
 	public static BigDecimalArgument of() {
-		return new EmptyBigDecimalArgument();
+		return new SingleBigDecimalArgument();
 	}
 
 }

@@ -32,7 +32,7 @@ public interface BigIntegerArgument extends NumberArgument<BigInteger> {
 	}
 
 	public static BigIntegerArgument of() {
-		return new EmptyBigIntegerArgument();
+		return new SingleBigIntegerArgument();
 	}
 
 }

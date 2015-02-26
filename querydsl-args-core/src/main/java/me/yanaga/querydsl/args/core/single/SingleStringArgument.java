@@ -36,6 +36,10 @@ class SingleStringArgument extends AbstractSingleArgument<StringExpression, Stri
 		super(value, StringExpression::containsIgnoreCase);
 	}
 
+	SingleStringArgument() {
+		this(null);
+	}
+
 	@SafeVarargs
 	public final void append(BooleanBuilder builder,
 			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,

@@ -30,7 +30,7 @@ public interface LongArgument extends NumberArgument<Long> {
 	}
 
 	public static LongArgument of() {
-		return new EmptyLongArgument();
+		return new SingleLongArgument();
 	}
 
 }

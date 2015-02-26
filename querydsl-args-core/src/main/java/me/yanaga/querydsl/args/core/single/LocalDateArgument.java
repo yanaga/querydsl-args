@@ -34,7 +34,7 @@ public interface LocalDateArgument extends TemporalArgument<DateExpression<Local
 	}
 
 	public static LocalDateArgument of() {
-		return new EmptyLocalDateArgument();
+		return new SingleLocalDateArgument();
 	}
 
 }

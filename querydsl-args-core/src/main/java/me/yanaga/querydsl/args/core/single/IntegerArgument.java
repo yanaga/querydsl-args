@@ -30,7 +30,7 @@ public interface IntegerArgument extends NumberArgument<Integer> {
 	}
 
 	public static IntegerArgument of() {
-		return new EmptyIntegerArgument();
+		return new SingleIntegerArgument();
 	}
 
 }
