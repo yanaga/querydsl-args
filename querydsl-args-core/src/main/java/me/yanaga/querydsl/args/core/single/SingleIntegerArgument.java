@@ -22,18 +22,18 @@ package me.yanaga.querydsl.args.core.single;
 
 public class SingleIntegerArgument extends SingleNumberArgument<Integer> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SingleIntegerArgument(Integer value) {
-		super(value);
-	}
+    private SingleIntegerArgument(Integer value) {
+        super(value);
+    }
 
-	public static SingleIntegerArgument of(Integer value) {
-		return new SingleIntegerArgument(value);
-	}
+    public static SingleIntegerArgument of(Integer value) {
+        return new SingleIntegerArgument(value);
+    }
 
-	public static SingleIntegerArgument of() {
-		return of(null);
-	}
+    public static SingleIntegerArgument of() {
+        return of(null);
+    }
 
 }

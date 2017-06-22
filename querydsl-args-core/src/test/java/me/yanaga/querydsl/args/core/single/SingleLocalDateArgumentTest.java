@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -39,25 +39,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class SingleLocalDateArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneLocalDate(LocalDate.of(2015, 2, 25));
-		person.setAnotherLocalDate(LocalDate.of(2015, 2, 27));
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneLocalDate(LocalDate.of(2015, 2, 25));
+        person.setAnotherLocalDate(LocalDate.of(2015, 2, 27));
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testAppendDefaultOneArgument() {
-		SingleLocalDateArgument argument = SingleLocalDateArgument.of(LocalDate.of(2015, 2, 25));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneLocalDate);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNotNull();
-		assertThat(result.getOneLocalDate()).isEqualTo(LocalDate.of(2015, 2, 25));
-	}
+    @Test
+    public void testAppendDefaultOneArgument() {
+        SingleLocalDateArgument argument = SingleLocalDateArgument.of(LocalDate.of(2015, 2, 25));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneLocalDate);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNotNull();
+        assertThat(result.getOneLocalDate()).isEqualTo(LocalDate.of(2015, 2, 25));
+    }
 
 }

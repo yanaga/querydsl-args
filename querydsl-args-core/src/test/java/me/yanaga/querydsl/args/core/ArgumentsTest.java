@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.SimpleExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.SimpleExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -58,7 +58,7 @@ public class ArgumentsTest extends AbstractTransactionalTestNGSpringContextTests
 	public void testAppendNullWithOperationAndTwoArguments() throws Exception {
 		BooleanBuilder builder = new BooleanBuilder();
 		Arguments.<SimpleExpression, CustomNumberType>append(builder, null, SimpleExpression::eq, QPerson.person.oneCustomNumberType, QPerson.person.anotherCustomNumberType);
-		List<Person> result = new JPAQuery(entityManager).from(QPerson.person).where(builder).list(QPerson.person);
+		List<Person> result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetch();
 		assertThat(result.size()).isEqualTo(1);
 	}
 

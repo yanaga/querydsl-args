@@ -34,18 +34,12 @@
             <version>1.7.7</version>
         </dependency>
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-core</artifactId>
             <version>${querydsl.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>${querydsl.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
+            <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
             <version>${querydsl.version}</version>
             <scope>test</scope>
@@ -106,7 +100,7 @@
                 <configuration>
                     <logOnlyOnError>true</logOnlyOnError>
                     <processors>
-                        <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+                        <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
                     </processors>
                 </configuration>
                 <executions>
@@ -121,6 +115,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.querydsl</groupId>
+                        <artifactId>querydsl-apt</artifactId>
+                        <version>${querydsl.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

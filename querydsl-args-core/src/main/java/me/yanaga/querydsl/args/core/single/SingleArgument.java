@@ -27,47 +27,47 @@ import java.time.LocalDateTime;
 
 public class SingleArgument {
 
-	private SingleArgument() {
-	}
+    private SingleArgument() {
+    }
 
-	public static SingleBigDecimalArgument of(BigDecimal value) {
-		return SingleBigDecimalArgument.of(value);
-	}
+    public static SingleBigDecimalArgument of(BigDecimal value) {
+        return SingleBigDecimalArgument.of(value);
+    }
 
-	public static SingleBigIntegerArgument of(BigInteger value) {
-		return SingleBigIntegerArgument.of(value);
-	}
+    public static SingleBigIntegerArgument of(BigInteger value) {
+        return SingleBigIntegerArgument.of(value);
+    }
 
-	public static <T extends Comparable<T>> SingleComparableArgument<T> of(T value) {
-		return SingleComparableArgument.of(value);
-	}
+    public static <T extends Comparable<T>> SingleComparableArgument<T> of(T value) {
+        return SingleComparableArgument.of(value);
+    }
 
-	public static SingleIntegerArgument of(Integer value) {
-		return SingleIntegerArgument.of(value);
-	}
+    public static SingleIntegerArgument of(Integer value) {
+        return SingleIntegerArgument.of(value);
+    }
 
-	public static SingleLocalDateArgument of(LocalDate value) {
-		return SingleLocalDateArgument.of(value);
-	}
+    public static SingleLocalDateArgument of(LocalDate value) {
+        return SingleLocalDateArgument.of(value);
+    }
 
-	public static SingleLocalDateTimeArgument of(LocalDateTime value) {
-		return SingleLocalDateTimeArgument.of(value);
-	}
+    public static SingleLocalDateTimeArgument of(LocalDateTime value) {
+        return SingleLocalDateTimeArgument.of(value);
+    }
 
-	public static SingleLongArgument of(Long value) {
-		return SingleLongArgument.of(value);
-	}
+    public static SingleLongArgument of(Long value) {
+        return SingleLongArgument.of(value);
+    }
 
-	public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of(T value) {
-		return SingleNumberArgument.of(value);
-	}
+    public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of(T value) {
+        return SingleNumberArgument.of(value);
+    }
 
-	public static <T> SingleSimpleArgument<T> of(T value) {
-		return SingleSimpleArgument.of(value);
-	}
+    public static <T> SingleSimpleArgument<T> of(T value) {
+        return SingleSimpleArgument.of(value);
+    }
 
-	public static SingleStringArgument of(String value) {
-		return SingleStringArgument.of(value);
-	}
+    public static SingleStringArgument of(String value) {
+        return SingleStringArgument.of(value);
+    }
 
 }

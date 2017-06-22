@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.SimpleExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.SimpleExpression;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
@@ -32,22 +32,22 @@ import static me.yanaga.querydsl.args.core.stream.ArgumentCollectors.toBooleanBu
 
 public class Arguments {
 
-	private Arguments() {
-	}
+    private Arguments() {
+    }
 
-	@SafeVarargs
-	public static <T extends SimpleExpression<?>, V> void append(BooleanBuilder builder,
-			V value,
-			BiFunction<T, V, BooleanExpression> operation,
-			T path,
-			T... paths) {
-		checkNotNull(builder);
-		checkNotNull(operation);
-		checkNotNull(path);
-		builder.and(Stream.concat(Stream.of(path), Stream.of(paths))
-				.filter(e -> value != null && e != null)
-				.map(e -> operation.apply(e, value))
-				.collect(toBooleanBuilder()));
-	}
+    @SafeVarargs
+    public static <T extends SimpleExpression<?>, V> void append(BooleanBuilder builder,
+                                                                 V value,
+                                                                 BiFunction<T, V, BooleanExpression> operation,
+                                                                 T path,
+                                                                 T... paths) {
+        checkNotNull(builder);
+        checkNotNull(operation);
+        checkNotNull(path);
+        builder.and(Stream.concat(Stream.of(path), Stream.of(paths))
+                .filter(e -> value != null && e != null)
+                .map(e -> operation.apply(e, value))
+                .collect(toBooleanBuilder()));
+    }
 
 }

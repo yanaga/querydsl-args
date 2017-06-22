@@ -20,36 +20,36 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.SimpleExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.SimpleExpression;
 
 import java.util.function.BiFunction;
 
 public class SingleSimpleArgument<T> extends AbstractSingleArgument<SimpleExpression<T>, T> {
 
-	private SingleSimpleArgument(T value) {
-		super(value);
-	}
+    private SingleSimpleArgument(T value) {
+        super(value);
+    }
 
-	public static <T> SingleSimpleArgument<T> of(T value) {
-		return new SingleSimpleArgument<>(value);
-	}
+    public static <T> SingleSimpleArgument<T> of(T value) {
+        return new SingleSimpleArgument<>(value);
+    }
 
-	public static <T> SingleSimpleArgument<T> of() {
-		return of(null);
-	}
+    public static <T> SingleSimpleArgument<T> of() {
+        return of(null);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, BiFunction<SimpleExpression<T>, T, BooleanExpression> operation, SimpleExpression<T> path, SimpleExpression<T>... paths) {
-		super.append(builder, operation, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, BiFunction<SimpleExpression<T>, T, BooleanExpression> operation, SimpleExpression<T> path, SimpleExpression<T>... paths) {
+        super.append(builder, operation, path, paths);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, SimpleExpression<T> path, SimpleExpression<T>... paths) {
-		super.append(builder, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, SimpleExpression<T> path, SimpleExpression<T>... paths) {
+        super.append(builder, path, paths);
+    }
 
 }

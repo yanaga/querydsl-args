@@ -20,7 +20,7 @@ package me.yanaga.querydsl.args.core.stream;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
+import com.querydsl.core.BooleanBuilder;
 import me.yanaga.querydsl.args.core.model.QPerson;
 import org.testng.annotations.Test;
 

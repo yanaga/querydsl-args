@@ -22,17 +22,17 @@ package me.yanaga.querydsl.args.core.single;
 
 public class SingleLongArgument extends SingleNumberArgument<Long> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SingleLongArgument(Long value) {
-		super(value);
-	}
+    private SingleLongArgument(Long value) {
+        super(value);
+    }
 
-	public static SingleLongArgument of(Long value) {
-		return new SingleLongArgument(value);
-	}
+    public static SingleLongArgument of(Long value) {
+        return new SingleLongArgument(value);
+    }
 
-	public static SingleLongArgument of() {
-		return of(null);
-	}
+    public static SingleLongArgument of() {
+        return of(null);
+    }
 }

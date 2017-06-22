@@ -20,7 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.types.expr.DateTimeExpression;
+
+import com.querydsl.core.types.dsl.DateTimeExpression;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,24 +30,24 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class SingleLocalDateTimeArgument extends AbstractTemporalArgument<DateTimeExpression<LocalDateTime>, LocalDateTime> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SingleLocalDateTimeArgument(LocalDateTime value) {
-		super(value);
-	}
+    private SingleLocalDateTimeArgument(LocalDateTime value) {
+        super(value);
+    }
 
-	public static SingleLocalDateTimeArgument of(LocalDateTime value) {
-		return new SingleLocalDateTimeArgument(value);
-	}
+    public static SingleLocalDateTimeArgument of(LocalDateTime value) {
+        return new SingleLocalDateTimeArgument(value);
+    }
 
-	public static SingleLocalDateTimeArgument of() {
-		return of(null);
-	}
+    public static SingleLocalDateTimeArgument of() {
+        return of(null);
+    }
 
-	@Override
-	public String format(DateTimeFormatter formatter) {
-		checkNotNull(formatter);
-		return value.format(formatter);
-	}
+    @Override
+    public String format(DateTimeFormatter formatter) {
+        checkNotNull(formatter);
+        return value.format(formatter);
+    }
 
 }

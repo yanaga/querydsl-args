@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.NumberExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -42,79 +42,79 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class SingleIntegerArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneInteger(123);
-		person.setAnotherInteger(321);
-		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneInteger(123);
+        person.setAnotherInteger(321);
+        person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testAppendDefaultOneArgument() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneInteger()).isEqualTo(123);
-	}
+    @Test
+    public void testAppendDefaultOneArgument() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(123);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneInteger);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getOneInteger()).isEqualTo(123);
+    }
 
-	@Test
-	public void testAppendDefaultTwoArguments() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneInteger()).isEqualTo(123);
-	}
+    @Test
+    public void testAppendDefaultTwoArguments() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(123);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getOneInteger()).isEqualTo(123);
+    }
 
-	@Test
-	public void testAppendGoeTwoArguments() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(200);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getAnotherInteger()).isEqualTo(321);
-	}
+    @Test
+    public void testAppendGoeTwoArguments() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(200);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getAnotherInteger()).isEqualTo(321);
+    }
 
-	@Test
-	public void testAppendGoeTwoArgumentsWithNoResult() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(400);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testAppendGoeTwoArgumentsWithNoResult() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(400);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::goe, QPerson.person.oneInteger, QPerson.person.anotherInteger);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
-	@Test
-	public void testAppendDefaultCustomNumberType() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(222);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
-	}
+    @Test
+    public void testAppendDefaultCustomNumberType() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(222);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
+    }
 
-	@Test
-	public void testAppendLoeCustomNumberTypeAndInteger() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(250);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.intValue(), QPerson.person.anotherInteger);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
-	}
+    @Test
+    public void testAppendLoeCustomNumberTypeAndInteger() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(250);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.intValue(), QPerson.person.anotherInteger);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
+    }
 
-	@Test
-	public void testAppendDefaultCustomNumberTypeWithNoResult() {
-		SingleIntegerArgument argument = SingleIntegerArgument.of(123);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testAppendDefaultCustomNumberTypeWithNoResult() {
+        SingleIntegerArgument argument = SingleIntegerArgument.of(123);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomNumberType.intValue());
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
 }

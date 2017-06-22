@@ -20,32 +20,32 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.TemporalExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.TemporalExpression;
 
 import java.time.format.DateTimeFormatter;
 import java.util.function.BiFunction;
 
 public abstract class AbstractTemporalArgument<T extends TemporalExpression<V>, V extends Comparable<?>>
-		extends AbstractSingleArgument<T, V> {
+        extends AbstractSingleArgument<T, V> {
 
-	protected AbstractTemporalArgument(V value) {
-		super(value);
-	}
+    protected AbstractTemporalArgument(V value) {
+        super(value);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths) {
-		super.append(builder, operation, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, BiFunction<T, V, BooleanExpression> operation, T path, T... paths) {
+        super.append(builder, operation, path, paths);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, T path, T... paths) {
-		super.append(builder, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, T path, T... paths) {
+        super.append(builder, path, paths);
+    }
 
-	public abstract String format(DateTimeFormatter formatter);
+    public abstract String format(DateTimeFormatter formatter);
 
 }

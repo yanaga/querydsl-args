@@ -20,63 +20,41 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.ComparableExpressionBase;
-import com.mysema.query.types.expr.StringExpression;
-import me.yanaga.querydsl.args.core.Arguments;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 
 import java.util.function.BiFunction;
-import java.util.stream.Stream;
 
 public class SingleStringArgument extends AbstractSingleArgument<StringExpression, String> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private SingleStringArgument(String value) {
-		super(value);
-	}
+    private SingleStringArgument(String value) {
+        super(value);
+    }
 
-	public static SingleStringArgument of(String value) {
-		return new SingleStringArgument(value);
-	}
+    public static SingleStringArgument of(String value) {
+        return new SingleStringArgument(value);
+    }
 
-	public static SingleStringArgument of() {
-		return of(null);
-	}
+    public static SingleStringArgument of() {
+        return of(null);
+    }
 
-	@Override
-	public final void append(BooleanBuilder builder, BiFunction<StringExpression, String, BooleanExpression> operation, StringExpression path, StringExpression... paths) {
-		super.append(builder, operation, path, paths);
-	}
+    @Override
+    public final void append(BooleanBuilder builder, BiFunction<StringExpression, String, BooleanExpression> operation, StringExpression path, StringExpression... paths) {
+        super.append(builder, operation, path, paths);
+    }
 
-	@Override
-	public final void append(BooleanBuilder builder, StringExpression path, StringExpression... paths) {
-		super.append(builder, path, paths);
-	}
+    @Override
+    public final void append(BooleanBuilder builder, StringExpression path, StringExpression... paths) {
+        super.append(builder, path, paths);
+    }
 
-	@SafeVarargs
-	public final void append(BooleanBuilder builder,
-			BiFunction<ComparableExpressionBase<? extends Comparable<?>>, Comparable<?>, BooleanExpression> operation,
-			ComparableExpressionBase<? extends Comparable<?>> path,
-			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		Arguments.append(builder, value, operation, path.stringValue(), Stream.of(paths)
-				.map(ComparableExpressionBase::stringValue)
-				.toArray(StringExpression[]::new));
-	}
-
-	@SafeVarargs
-	public final void append(BooleanBuilder builder,
-			ComparableExpressionBase<? extends Comparable<?>> path,
-			ComparableExpressionBase<? extends Comparable<?>>... paths) {
-		Arguments.append(builder, value, getDefaultOperation(), path.stringValue(), Stream.of(paths)
-				.map(ComparableExpressionBase::stringValue)
-				.toArray(StringExpression[]::new));
-	}
-
-	@Override
-	BiFunction<StringExpression, String, BooleanExpression> getDefaultOperation() {
-		return StringExpression::containsIgnoreCase;
-	}
+    @Override
+    BiFunction<StringExpression, String, BooleanExpression> getDefaultOperation() {
+        return StringExpression::containsIgnoreCase;
+    }
 
 }

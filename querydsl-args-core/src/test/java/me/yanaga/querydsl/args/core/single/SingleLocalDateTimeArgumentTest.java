@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.Person;
 import me.yanaga.querydsl.args.core.model.QPerson;
@@ -39,25 +39,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class SingleLocalDateTimeArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneLocalDateTime(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
-		person.setAnotherLocalDateTime(LocalDateTime.of(2015, 2, 27, 18, 45, 3));
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneLocalDateTime(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
+        person.setAnotherLocalDateTime(LocalDateTime.of(2015, 2, 27, 18, 45, 3));
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testAppendDefaultOneArgument() {
-		SingleLocalDateTimeArgument argument = SingleLocalDateTimeArgument.of(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneLocalDateTime);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNotNull();
-		assertThat(result.getOneLocalDateTime()).isEqualTo((LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0)));
-	}
+    @Test
+    public void testAppendDefaultOneArgument() {
+        SingleLocalDateTimeArgument argument = SingleLocalDateTimeArgument.of(LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneLocalDateTime);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNotNull();
+        assertThat(result.getOneLocalDateTime()).isEqualTo((LocalDateTime.of(2015, 2, 25, 7, 58, 29, 0)));
+    }
 
 }

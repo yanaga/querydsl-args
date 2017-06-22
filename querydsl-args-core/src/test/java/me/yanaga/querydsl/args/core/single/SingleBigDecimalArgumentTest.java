@@ -20,9 +20,9 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.expr.NumberExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -42,79 +42,79 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class SingleBigDecimalArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneBigDecimal(new BigDecimal("123.12"));
-		person.setAnotherBigDecimal(new BigDecimal("321"));
-		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneBigDecimal(new BigDecimal("123.12"));
+        person.setAnotherBigDecimal(new BigDecimal("321"));
+        person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testAppendDefaultOneArgument() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
-	}
+    @Test
+    public void testAppendDefaultOneArgument() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneBigDecimal);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
+    }
 
-	@Test
-	public void testAppendDefaultTwoArguments() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
-	}
+    @Test
+    public void testAppendDefaultTwoArguments() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getOneBigDecimal()).isEqualTo(new BigDecimal("123.12"));
+    }
 
-	@Test
-	public void testAppendGoeTwoArguments() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("200"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getAnotherBigDecimal()).isEqualTo(new BigDecimal("321"));
-	}
+    @Test
+    public void testAppendGoeTwoArguments() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("200"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getAnotherBigDecimal()).isEqualTo(new BigDecimal("321"));
+    }
 
-	@Test
-	public void testAppendGoeTwoArgumentsWithNoResult() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("400"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testAppendGoeTwoArgumentsWithNoResult() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("400"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::goe, QPerson.person.oneBigDecimal, QPerson.person.anotherBigDecimal);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
-	@Test
-	public void testAppendDefaultCustomNumberType() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("222"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
-	}
+    @Test
+    public void testAppendDefaultCustomNumberType() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("222"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
+    }
 
-	@Test
-	public void testAppendLoeCustomNumberTypeAndBigDecimal() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("250"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class), QPerson.person.anotherBigDecimal);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
-	}
+    @Test
+    public void testAppendLoeCustomNumberTypeAndBigDecimal() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("250"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, NumberExpression::loe, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class), QPerson.person.anotherBigDecimal);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        Assertions.assertThat(result.getOneCustomNumberType()).isEqualTo(CustomNumberType.of(new BigDecimal("222")));
+    }
 
-	@Test
-	public void testAppendDefaultCustomNumberTypeWithNoResult() {
-		SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testAppendDefaultCustomNumberTypeWithNoResult() {
+        SingleBigDecimalArgument argument = SingleBigDecimalArgument.of(new BigDecimal("123.12"));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomNumberType.castToNum(BigDecimal.class));
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
 }

@@ -9,9 +9,9 @@ package me.yanaga.querydsl.args.core.single;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomComparableType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -40,35 +40,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class SingleComparableArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneCustomComparableType(CustomComparableType.of(LocalDate.of(2015, 2, 26)));
-		person.setAnotherCustomComparableType(CustomComparableType.of(LocalDate.of(2015, 3, 23)));
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneCustomComparableType(CustomComparableType.of(LocalDate.of(2015, 2, 26)));
+        person.setAnotherCustomComparableType(CustomComparableType.of(LocalDate.of(2015, 3, 23)));
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testAppendDefaultWithOneArgument() {
-		CustomComparableType value = CustomComparableType.of(LocalDate.of(2015, 2, 26));
-		SingleComparableArgument<CustomComparableType> argument = SingleComparableArgument.of(value);
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomComparableType);
-		SingleArgument.of(value).append(builder, QPerson.person.oneCustomComparableType);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result.getOneCustomComparableType()).isEqualTo(value);
-	}
+    @Test
+    public void testAppendDefaultWithOneArgument() {
+        CustomComparableType value = CustomComparableType.of(LocalDate.of(2015, 2, 26));
+        SingleComparableArgument<CustomComparableType> argument = SingleComparableArgument.of(value);
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomComparableType);
+        SingleArgument.of(value).append(builder, QPerson.person.oneCustomComparableType);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result.getOneCustomComparableType()).isEqualTo(value);
+    }
 
-	@Test
-	public void testAppendGoeWithTwoArguments() {
-		SingleComparableArgument<CustomComparableType> argument = SingleComparableArgument.of(CustomComparableType.of(LocalDate.of(2015, 3, 30)));
-		BooleanBuilder builder = new BooleanBuilder();
-		argument.append(builder, QPerson.person.oneCustomComparableType, QPerson.person.anotherCustomComparableType);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testAppendGoeWithTwoArguments() {
+        SingleComparableArgument<CustomComparableType> argument = SingleComparableArgument.of(CustomComparableType.of(LocalDate.of(2015, 3, 30)));
+        BooleanBuilder builder = new BooleanBuilder();
+        argument.append(builder, QPerson.person.oneCustomComparableType, QPerson.person.anotherCustomComparableType);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
 }

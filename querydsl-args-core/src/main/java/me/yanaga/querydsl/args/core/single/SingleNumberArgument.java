@@ -20,36 +20,36 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.NumberExpression;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberExpression;
 
 import java.util.function.BiFunction;
 
 public class SingleNumberArgument<T extends Number & Comparable<T>> extends AbstractSingleArgument<NumberExpression<T>, T> {
 
-	SingleNumberArgument(T value) {
-		super(value);
-	}
+    SingleNumberArgument(T value) {
+        super(value);
+    }
 
-	public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of(T value) {
-		return new SingleNumberArgument<>(value);
-	}
+    public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of(T value) {
+        return new SingleNumberArgument<>(value);
+    }
 
-	public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of() {
-		return of(null);
-	}
+    public static <T extends Number & Comparable<T>> SingleNumberArgument<T> of() {
+        return of(null);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, BiFunction<NumberExpression<T>, T, BooleanExpression> operation, NumberExpression<T> path, NumberExpression<T>... paths) {
-		super.append(builder, operation, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, BiFunction<NumberExpression<T>, T, BooleanExpression> operation, NumberExpression<T> path, NumberExpression<T>... paths) {
+        super.append(builder, operation, path, paths);
+    }
 
-	@SafeVarargs
-	@Override
-	public final void append(BooleanBuilder builder, NumberExpression<T> path, NumberExpression<T>... paths) {
-		super.append(builder, path, paths);
-	}
+    @SafeVarargs
+    @Override
+    public final void append(BooleanBuilder builder, NumberExpression<T> path, NumberExpression<T>... paths) {
+        super.append(builder, path, paths);
+    }
 
 }

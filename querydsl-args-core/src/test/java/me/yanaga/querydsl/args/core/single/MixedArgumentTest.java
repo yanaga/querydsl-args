@@ -20,8 +20,8 @@ package me.yanaga.querydsl.args.core.single;
  * #L%
  */
 
-import com.mysema.query.BooleanBuilder;
-import com.mysema.query.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import me.yanaga.querydsl.args.core.TestConfig;
 import me.yanaga.querydsl.args.core.model.CustomNumberType;
 import me.yanaga.querydsl.args.core.model.Person;
@@ -40,29 +40,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(classes = TestConfig.class)
 public class MixedArgumentTest extends AbstractTransactionalTestNGSpringContextTests {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@BeforeMethod
-	public void setUp() {
-		Person person = new Person();
-		person.setOneInteger(123);
-		person.setAnotherInteger(321);
-		person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
-		person.setOneString("abc");
-		person.setAnotherString("xyz");
-		entityManager.persist(person);
-	}
+    @BeforeMethod
+    public void setUp() {
+        Person person = new Person();
+        person.setOneInteger(123);
+        person.setAnotherInteger(321);
+        person.setOneCustomNumberType(CustomNumberType.of(new BigDecimal(222)));
+        person.setOneString("abc");
+        person.setAnotherString("xyz");
+        entityManager.persist(person);
+    }
 
-	@Test
-	public void testArgumentsdAreConcatenatedWithAnd() {
-		SingleIntegerArgument integerArgument = SingleIntegerArgument.of(123);
-		SingleStringArgument stringArgument = SingleStringArgument.of("def");
-		BooleanBuilder builder = new BooleanBuilder();
-		integerArgument.append(builder, QPerson.person.oneInteger);
-		stringArgument.append(builder, QPerson.person.oneString);
-		Person result = new JPAQuery(entityManager).from(QPerson.person).where(builder).uniqueResult(QPerson.person);
-		assertThat(result).isNull();
-	}
+    @Test
+    public void testArgumentsdAreConcatenatedWithAnd() {
+        SingleIntegerArgument integerArgument = SingleIntegerArgument.of(123);
+        SingleStringArgument stringArgument = SingleStringArgument.of("def");
+        BooleanBuilder builder = new BooleanBuilder();
+        integerArgument.append(builder, QPerson.person.oneInteger);
+        stringArgument.append(builder, QPerson.person.oneString);
+        Person result = new JPAQuery<Void>(entityManager).select(QPerson.person).from(QPerson.person).where(builder).fetchOne();
+        assertThat(result).isNull();
+    }
 
 }
